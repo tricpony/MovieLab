@@ -1,0 +1,6 @@
+framework module Pods_MovieLab {
+  umbrella header "Pods-MovieLab-umbrella.h"
+
+  export *
+  module * { export * }
+}
