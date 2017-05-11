@@ -62,4 +62,30 @@ class CoreDataUtility {
         request = fetchRequest("Movie", ctx, predicate, sortOrders)
         return request!
     }
+    
+    class func fetchedRequestForFavorites(ctx: NSManagedObjectContext) -> NSFetchRequest<NSFetchRequestResult> {
+        var request: NSFetchRequest<NSFetchRequestResult>? = nil
+        let predicateC: NSPredicate = equalPredicate(key: "isFavorite", value: 1)
+        let sortOrder: NSSortDescriptor = NSSortDescriptor.init(key: "title", ascending: true)
+        let sortOrders = [sortOrder]
+        
+        request = fetchRequest("Movie", ctx, predicateC, sortOrders)
+        return request!
+    }
+    
+    // MARK: - Pre-fabbed predicates
+    
+    class func equalPredicate(key: String, value: Any) -> NSPredicate {
+        let lhs: NSExpression = NSExpression.init(forKeyPath: key)
+        let rhs: NSExpression = NSExpression.init(forConstantValue: value)
+        let q: NSPredicate = NSComparisonPredicate.init(leftExpression: lhs,
+                                                        rightExpression: rhs,
+                                                        modifier: NSComparisonPredicate.Modifier.direct,
+                                                        type: NSComparisonPredicate.Operator.equalTo,
+                                                        options: NSComparisonPredicate.Options.diacriticInsensitive)
+        
+        return q
+    }
+
+
 }

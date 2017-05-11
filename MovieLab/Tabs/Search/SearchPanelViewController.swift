@@ -19,7 +19,6 @@ class SearchPanelViewController: UIViewController, NSFetchedResultsControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         let nc = NotificationCenter.default
-        self.title = "Search For Movies"
         self.view.bringSubview(toFront: self.progressBar)
         
         self.managedObjectContext = CoreDataStack.sharedInstance().mainContext
@@ -149,19 +148,29 @@ class SearchPanelViewController: UIViewController, NSFetchedResultsControllerDel
             cell = UITableViewCell.init(style: UITableViewCellStyle(rawValue: 0)!, reuseIdentifier: "Cell")
         }
         cell?.textLabel!.text = movie.title
+        cell?.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         return cell!
     }
 
-    // MARK: - Keyboard
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-    /*
+        tableView.deselectRow(at: indexPath, animated: true)
+        self.performSegue(withIdentifier: "movieDetailSegue", sender: indexPath)
+    }
+    
     // MARK: - Storyboard
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        var vc: DetailViewController
+        var navVC: UINavigationController
+        var movie: Movie
+        let indexPath: NSIndexPath = sender as! NSIndexPath
+        
+        movie = fetchedResultsController.object(at: indexPath as IndexPath)
+        navVC = segue.destination as! UINavigationController
+        vc = navVC.topViewController as! DetailViewController
+        vc.movie = movie;
+        vc.title = movie.title
     }
-    */
 
 }
