@@ -48,6 +48,7 @@ class SearchPanelViewController: UIViewController, NSFetchedResultsControllerDel
         ]
         let serviceRequest = RKNetworkClient();
         
+        self.searchBar.resignFirstResponder()
         self.progressBar.alpha = 1
         self.progressBar.setProgress(0, animated: false)
         serviceRequest.performNetworkMovieFetch(matchingParameters: searchArgs as! [AnyHashable : Any], successBlock: { results in
