@@ -11,6 +11,7 @@
 #pragma mark - API
 
 FOUNDATION_EXPORT NSString * const API_BaseMovieURL;
+FOUNDATION_EXPORT NSString * const API_BaseMoviePosterArtURL;
 
 @class NSManagedObjectContext;
 @interface CoreDataStack : NSObject

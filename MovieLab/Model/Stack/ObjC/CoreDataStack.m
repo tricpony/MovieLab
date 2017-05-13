@@ -15,6 +15,7 @@
 #pragma clang pop
 
 NSString * const API_BaseMovieURL = @"http://api.themoviedb.org/3/";
+NSString * const API_BaseMoviePosterArtURL = @"http://image.tmdb.org/t/p/w500/";
 
 static CoreDataStack *sharedInstance = nil;
 
