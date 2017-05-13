@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchPanelViewController: UIViewController, NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource {
+class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource, UISplitViewControllerDelegate {
 
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -20,7 +20,8 @@ class SearchPanelViewController: UIViewController, NSFetchedResultsControllerDel
         super.viewDidLoad()
         let nc = NotificationCenter.default
         self.view.bringSubview(toFront: self.progressBar)
-        
+        self.splitViewController?.delegate = self
+
         self.managedObjectContext = CoreDataStack.sharedInstance().mainContext
         nc.addObserver(self, selector:#selector(SearchPanelViewController.advanceProgressBar), name: NSNotification.Name.VN_IncrementActivityCount, object:nil)
         
@@ -153,11 +154,39 @@ class SearchPanelViewController: UIViewController, NSFetchedResultsControllerDel
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         tableView.deselectRow(at: indexPath, animated: true)
-        self.performSegue(withIdentifier: "movieDetailSegue", sender: indexPath)
+        self.shouldCollapseDetailViewController = false
+        
+        if self.sizeClass().horizontal == .compact {
+            
+            let sb: UIStoryboard = self.storyboard!
+            let destinationVC: UINavigationController = sb.instantiateViewController(withIdentifier: "movieDetailScene") as! UINavigationController
+            var segue: UIStoryboardSegue!
+            
+            segue = UIStoryboardSegue.init(identifier: "movieDetailSegue", source: self, destination: destinationVC) {
+                self.navigationController?.pushViewController(destinationVC.viewControllers[0], animated: true)
+            }
+            
+            self.prepare(for: segue, sender: indexPath)
+            segue.perform()
+            
+        }else{
+            
+            self.performSegue(withIdentifier: "movieDetailSegue", sender: indexPath)
+            
+        }
     }
     
+    // MARK: - UISplitViewControllerDelegate
+    
+    func splitViewController(_ splitViewController: UISplitViewController,
+                             collapseSecondary secondaryViewController: UIViewController,
+                             onto primaryViewController: UIViewController) -> Bool {
+        
+        return self.shouldCollapseDetailViewController
+    }
+
     // MARK: - Storyboard
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

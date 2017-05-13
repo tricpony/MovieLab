@@ -12,6 +12,7 @@ class FavoritesTableViewController: UITableViewController, NSFetchedResultsContr
 
     var _fetchedResultsController: NSFetchedResultsController<Movie>? = nil
     var managedObjectContext: NSManagedObjectContext? = nil
+    public var shouldCollapseDetailViewController: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +20,18 @@ class FavoritesTableViewController: UITableViewController, NSFetchedResultsContr
         self.managedObjectContext = CoreDataStack.sharedInstance().mainContext
         self.clearsSelectionOnViewWillAppear = false
 
+    }
+
+    func sizeClass() -> (vertical: UIUserInterfaceSizeClass, horizontal: UIUserInterfaceSizeClass) {
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let window: UIWindow = appDelegate.window!
+        let vSizeClass: UIUserInterfaceSizeClass!
+        let hSizeClass: UIUserInterfaceSizeClass!
+        
+        hSizeClass = window.traitCollection.horizontalSizeClass
+        vSizeClass = window.traitCollection.verticalSizeClass
+        
+        return (vertical: vSizeClass, horizontal: hSizeClass)
     }
 
     // MARK: - Fetched results controller
@@ -100,14 +113,53 @@ class FavoritesTableViewController: UITableViewController, NSFetchedResultsContr
         return cell!
     }
     
-    /*
-     // MARK: - Storyboard
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        self.shouldCollapseDetailViewController = false
+        
+        if self.sizeClass().horizontal == .compact {
+            
+            let sb: UIStoryboard = self.storyboard!
+            let destinationVC: UINavigationController = sb.instantiateViewController(withIdentifier: "movieDetailScene") as! UINavigationController
+            var segue: UIStoryboardSegue!
+            
+            segue = UIStoryboardSegue.init(identifier: "movieDetailSegue", source: self, destination: destinationVC) {
+                self.navigationController?.pushViewController(destinationVC.viewControllers[0], animated: true)
+            }
+            
+            self.prepare(for: segue, sender: indexPath)
+            segue.perform()
+            
+        }else{
+            
+            self.performSegue(withIdentifier: "movieDetailSegue", sender: indexPath)
+            
+        }
+    }
+
+    // MARK: - UISplitViewControllerDelegate
+    
+    func splitViewController(_ splitViewController: UISplitViewController,
+                             collapseSecondary secondaryViewController: UIViewController,
+                             onto primaryViewController: UIViewController) -> Bool {
+        
+        return self.shouldCollapseDetailViewController
+    }
+
+    // MARK: - Storyboard
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        var vc: DetailViewController
+        var navVC: UINavigationController
+        var movie: Movie
+        let indexPath: NSIndexPath = sender as! NSIndexPath
+        
+        movie = fetchedResultsController.object(at: indexPath as IndexPath)
+        navVC = segue.destination as! UINavigationController
+        vc = navVC.topViewController as! DetailViewController
+        vc.movie = movie;
+        vc.title = movie.title
+    }
     
 }

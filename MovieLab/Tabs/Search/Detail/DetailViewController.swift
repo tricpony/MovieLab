@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: BaseViewController {
 
     @IBOutlet weak var posterImageView: UIImageView!
     @IBOutlet weak var overViewLabel: UILabel!
@@ -36,14 +36,4 @@ class DetailViewController: UIViewController {
         CoreDataStack.sharedInstance().persistContext(self.managedObjectContext, wait: true)
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
