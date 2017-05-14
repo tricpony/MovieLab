@@ -15,19 +15,22 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
     @IBOutlet weak var tableView: UITableView!
     var _fetchedResultsController: NSFetchedResultsController<Movie>? = nil
     var managedObjectContext: NSManagedObjectContext? = nil
+    var selectedMovie: Movie? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
         let nc = NotificationCenter.default
         self.view.bringSubview(toFront: self.progressBar)
         self.splitViewController?.delegate = self
-
+        self.splitViewController?.preferredDisplayMode = .allVisible
+        
         self.managedObjectContext = CoreDataStack.sharedInstance().mainContext
         nc.addObserver(self, selector:#selector(SearchPanelViewController.advanceProgressBar), name: NSNotification.Name.VN_IncrementActivityCount, object:nil)
         
         //debug
 //        self.searchBar.text = "Dirty Harry"
         self.searchBar.text = "pixar"
+        self.searchBar.enableBorders()
     }
     
     func fadeOutProgressBar() {
@@ -157,6 +160,7 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
         
         tableView.deselectRow(at: indexPath, animated: true)
         self.shouldCollapseDetailViewController = false
+        self.selectedMovie = fetchedResultsController.object(at: indexPath as IndexPath)
         
         if self.sizeClass().horizontal == .compact {
             
@@ -168,16 +172,16 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
                 self.navigationController?.pushViewController(destinationVC.viewControllers[0], animated: true)
             }
             
-            self.prepare(for: segue, sender: indexPath)
+            self.prepare(for: segue, sender: nil)
             segue.perform()
             
         }else{
             
-            self.performSegue(withIdentifier: "movieDetailSegue", sender: indexPath)
+            self.performSegue(withIdentifier: "movieDetailSegue", sender: nil)
             
         }
     }
-    
+        
     // MARK: - UISplitViewControllerDelegate
     
     func splitViewController(_ splitViewController: UISplitViewController,
@@ -193,9 +197,8 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
         var vc: DetailViewController
         var navVC: UINavigationController
         var movie: Movie
-        let indexPath: NSIndexPath = sender as! NSIndexPath
         
-        movie = fetchedResultsController.object(at: indexPath as IndexPath)
+        movie = self.selectedMovie!
         navVC = segue.destination as! UINavigationController
         vc = navVC.topViewController as! DetailViewController
         vc.movie = movie;
