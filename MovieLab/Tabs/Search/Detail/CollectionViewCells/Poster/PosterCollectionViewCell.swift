@@ -12,6 +12,7 @@ let POSTER_COLLECTION_CELL_ID = "POSTER_COLLECTION_CELL_ID"
 
 class PosterCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
 
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var posterImageView: UIImageView!
     var movie: Movie!
 
@@ -35,6 +36,8 @@ class PosterCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
         posterPath = (self.movie?.posterPath)!
         posterURLString = "\(API_BaseMoviePosterArtURL)\(posterPath)"
         
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
         DispatchQueue.global(qos: .background).async {
             
             let imageURL: URL = URL.init(string: posterURLString)!
@@ -46,6 +49,8 @@ class PosterCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
                     if (imgData != nil) {
                         self.posterImageView.image = UIImage.init(data: imgData as Data)
                     }
+                    self.activityIndicator.stopAnimating()
+                    self.activityIndicator.isHidden = true
                 }
             } catch {
                 

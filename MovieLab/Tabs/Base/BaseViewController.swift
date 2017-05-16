@@ -9,16 +9,7 @@
 import UIKit
 
 class BaseViewController: UIViewController {
-    public var shouldCollapseDetailViewController: Bool = true
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if self.sizeClass().horizontal == .regular {
-            self.navigationController?.topViewController!.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-        }
-    }
-
+    
     func sizeClass() -> (vertical: UIUserInterfaceSizeClass, horizontal: UIUserInterfaceSizeClass) {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let window: UIWindow = appDelegate.window!
@@ -29,6 +20,76 @@ class BaseViewController: UIViewController {
         vSizeClass = window.traitCollection.verticalSizeClass
         
         return (vertical: vSizeClass, horizontal: hSizeClass)
+    }
+}
+
+class SplitViewController: UISplitViewController, UISplitViewControllerDelegate {
+    var manuallyHandleSecondaryViewController = false
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.delegate = self
+        self.preferredDisplayMode = .allVisible
+        if let nc = self.viewControllers.last as? UINavigationController {
+            nc.topViewController?.navigationItem.leftBarButtonItem = self.displayModeButtonItem
+            nc.topViewController?.navigationItem.leftItemsSupplementBackButton = true
+        }
+
+    }
+    
+    // MARK: - UISplitViewControllerDelegate
+    
+    func splitViewController(_ splitViewController: UISplitViewController, showDetail vc: UIViewController, sender: Any?) -> Bool {
+
+        if (splitViewController.traitCollection.horizontalSizeClass == .compact) && (Display.typeIsLike == DisplayType.iphone7plus) {
+
+            //this is for iphone plus to prepare it for a landscape rotation, otherwise it will crash
+            if let tabBarController = splitViewController.viewControllers.first as? UITabBarController {
+                if let navController = tabBarController.viewControllers?.first as? UINavigationController {
+                    let navVC: UINavigationController = vc as! UINavigationController
+                    if let presentedVC = navVC.viewControllers.first {
+                        navController.pushViewController(presentedVC, animated: true)
+                        manuallyHandleSecondaryViewController = true
+                        
+                        // we handled the "show detail", so split view controller,
+                        // please don't do anything else
+                        return true
+                    }
+                }
+            }
+        }
+        
+        // we did not handle the "show detail", so split view controller,
+        // please do your default behavior
+        return false
+    }
+
+    func splitViewController(_ splitViewController: UISplitViewController, separateSecondaryFrom primaryViewController: UIViewController) -> UIViewController? {
+        
+        guard manuallyHandleSecondaryViewController == true else {
+            return nil
+        }
+        
+        if splitViewController.traitCollection.horizontalSizeClass == .regular {
+            
+            if let tabBarController = splitViewController.viewControllers.first as? UITabBarController {
+                if let masterNavController = tabBarController.viewControllers?.first as? UINavigationController {
+                    let sb = self.storyboard
+                    let detailNavController: UINavigationController = sb?.instantiateViewController(withIdentifier: "movieDetailScene") as! UINavigationController
+
+                    if let presentedVC = masterNavController.popViewController(animated: false) {
+                        
+                        detailNavController.viewControllers = [presentedVC]
+                        manuallyHandleSecondaryViewController = false
+
+                        return detailNavController
+                    }
+                }
+            }
+        }
+        
+        return nil
     }
 
 }

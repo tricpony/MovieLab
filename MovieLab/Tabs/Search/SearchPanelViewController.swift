@@ -8,29 +8,26 @@
 
 import UIKit
 
-class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource, UISplitViewControllerDelegate {
+class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     var _fetchedResultsController: NSFetchedResultsController<Movie>? = nil
     var managedObjectContext: NSManagedObjectContext? = nil
-    var selectedMovie: Movie? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
         let nc = NotificationCenter.default
         self.view.bringSubview(toFront: self.progressBar)
-        self.splitViewController?.delegate = self
-        self.splitViewController?.preferredDisplayMode = .allVisible
-        
+//        splitViewController?.delegate = self
+
         self.managedObjectContext = CoreDataStack.sharedInstance().mainContext
         nc.addObserver(self, selector:#selector(SearchPanelViewController.advanceProgressBar), name: NSNotification.Name.VN_IncrementActivityCount, object:nil)
         
         //debug
 //        self.searchBar.text = "Dirty Harry"
         self.searchBar.text = "pixar"
-        self.searchBar.enableBorders()
     }
     
     func fadeOutProgressBar() {
@@ -145,64 +142,29 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: "Cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell", for: indexPath)
         let movie: Movie = fetchedResultsController.object(at: indexPath)
         
-        if cell == nil {
-            cell = UITableViewCell.init(style: UITableViewCellStyle(rawValue: 0)!, reuseIdentifier: "Cell")
-        }
-        cell?.textLabel!.text = movie.title
-        cell?.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
-        return cell!
+        cell.textLabel!.text = movie.title
+        cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+        return cell
     }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        tableView.deselectRow(at: indexPath, animated: true)
-        self.shouldCollapseDetailViewController = false
-        self.selectedMovie = fetchedResultsController.object(at: indexPath as IndexPath)
-        
-        if self.sizeClass().horizontal == .compact {
-            
-            let sb: UIStoryboard = self.storyboard!
-            let destinationVC: UINavigationController = sb.instantiateViewController(withIdentifier: "movieDetailScene") as! UINavigationController
-            var segue: UIStoryboardSegue!
-            
-            segue = UIStoryboardSegue.init(identifier: "movieDetailSegue", source: self, destination: destinationVC) {
-                self.navigationController?.pushViewController(destinationVC.viewControllers[0], animated: true)
-            }
-            
-            self.prepare(for: segue, sender: nil)
-            segue.perform()
-            
-        }else{
-            
-            self.performSegue(withIdentifier: "movieDetailSegue", sender: nil)
-            
-        }
-    }
-        
-    // MARK: - UISplitViewControllerDelegate
-    
-    func splitViewController(_ splitViewController: UISplitViewController,
-                             collapseSecondary secondaryViewController: UIViewController,
-                             onto primaryViewController: UIViewController) -> Bool {
-        
-        return self.shouldCollapseDetailViewController
-    }
-
-    // MARK: - Storyboard
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        var vc: DetailViewController
-        var navVC: UINavigationController
-        var movie: Movie
-        
-        movie = self.selectedMovie!
-        navVC = segue.destination as! UINavigationController
-        vc = navVC.topViewController as! DetailViewController
-        vc.movie = movie;
-        vc.title = movie.title
+
+        if segue.identifier == "movieDetailSegue" {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let movie: Movie = fetchedResultsController.object(at: indexPath)
+                let vc = (segue.destination as! UINavigationController).topViewController as! DetailViewController
+                vc.movie = movie
+                vc.navigationItem.title = movie.title
+                vc.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+                vc.navigationItem.leftItemsSupplementBackButton = true
+                tableView.deselectRow(at: indexPath, animated: false)
+           }
+        }
+
     }
 
 }
+

@@ -12,11 +12,11 @@
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">
             <objects>
-                <splitViewController id="H1p-Uh-vWS" sceneMemberID="viewController">
+                <splitViewController id="H1p-Uh-vWS" customClass="SplitViewController" customModule="MovieLab" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <connections>
-                        <segue destination="DuJ-Ul-Pq6" kind="relationship" relationship="masterViewController" id="sac-px-Sql"/>
                         <segue destination="uux-ir-oeV" kind="relationship" relationship="detailViewController" id="YwA-9h-bsJ"/>
+                        <segue destination="DuJ-Ul-Pq6" kind="relationship" relationship="masterViewController" id="JwL-Pc-A2I"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cZU-Oi-B1e" sceneMemberID="firstResponder"/>
@@ -57,6 +57,19 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bGE-Zi-a7p">
                                 <rect key="frame" x="0.0" y="108" width="375" height="510"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="movieCell" id="PyE-Wd-dPn">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PyE-Wd-dPn" id="yGs-ck-g49">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="uux-ir-oeV" kind="showDetail" identifier="movieDetailSegue" id="gef-2x-2bp"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="ybD-we-URQ" id="ML5-XH-0mH"/>
                                     <outlet property="delegate" destination="ybD-we-URQ" id="PGR-5h-I8t"/>
@@ -88,7 +101,6 @@
                         <outlet property="progressBar" destination="g7Q-i9-nNc" id="cy5-kD-Ebu"/>
                         <outlet property="searchBar" destination="f8M-vk-JBt" id="8E2-3b-QD8"/>
                         <outlet property="tableView" destination="bGE-Zi-a7p" id="Ce9-o7-BvT"/>
-                        <segue destination="uux-ir-oeV" kind="showDetail" identifier="movieDetailSegue" action="showViewController:sender:" id="5dy-RK-jxn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PuZ-XK-Cdv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -217,6 +229,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="movieCell" id="jx7-bt-IBo">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jx7-bt-IBo" id="jvi-H0-1V0">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="uux-ir-oeV" kind="showDetail" identifier="movieDetailSegue" id="rx9-TY-DKh"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="oAW-Cr-fcr" id="57K-gr-gqu"/>
                             <outlet property="delegate" destination="oAW-Cr-fcr" id="fyV-VF-1ND"/>
@@ -225,9 +250,6 @@
                     <navigationItem key="navigationItem" title="Favorites" id="o8F-W5-w0O">
                         <barButtonItem key="backBarButtonItem" title="Back" id="CIO-YF-Oqt"/>
                     </navigationItem>
-                    <connections>
-                        <segue destination="uux-ir-oeV" kind="showDetail" identifier="movieDetailSegue" id="cyd-RA-iJ0"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1od-9V-kQm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -260,6 +282,6 @@
         <image name="star-filled" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5dy-RK-jxn"/>
+        <segue reference="rx9-TY-DKh"/>
     </inferredMetricsTieBreakers>
 </document>
