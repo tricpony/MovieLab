@@ -103,14 +103,11 @@ class FavoritesTableViewController: UITableViewController, NSFetchedResultsContr
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: "Cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell", for: indexPath)
         let movie: Movie = fetchedResultsController.object(at: indexPath)
         
-        if cell == nil {
-            cell = UITableViewCell.init(style: UITableViewCellStyle(rawValue: 0)!, reuseIdentifier: "Cell")
-        }
-        cell?.textLabel!.text = movie.title
-        return cell!
+        cell.textLabel!.text = movie.title
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
