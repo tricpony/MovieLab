@@ -44,7 +44,10 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
 
         if (splitViewController.traitCollection.horizontalSizeClass == .compact) && (Display.typeIsLike == DisplayType.iphone7plus) {
 
-            //this is for iphone plus to prepare it for a landscape rotation, otherwise it will crash
+            //this is for iphone plus to prepare it for a landscape rotation, otherwise it will crash on landscape rotation
+            //in the delegate method below, separateSecondaryFrom, we handle the rotation to landscape
+            //every other size class works fine out of the box and needs no extra help
+            //http://stackoverflow.com/questions/37578425/iphone-6-plus-uisplitviewcontroller-crash-with-recursive-canbecomedeepestunambi
             if let tabBarController = splitViewController.viewControllers.first as? UITabBarController {
                 if let navController = tabBarController.viewControllers?.first as? UINavigationController {
                     let navVC: UINavigationController = vc as! UINavigationController
