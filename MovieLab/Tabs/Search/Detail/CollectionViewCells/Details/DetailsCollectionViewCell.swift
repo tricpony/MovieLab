@@ -36,11 +36,17 @@ class DetailsCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
         
         layer.borderWidth = 1.0
         layer.cornerRadius = 12.25
+        
+        //OldLace
+        //http://www.blooberry.com/indexdot/color/x11makerFrameNS.htm
         layer.backgroundColor = UIColor.hexStringToUIColor(hex: "#FDF5E6").cgColor
         
         layer = self.overViewHeaderBackgroundView.layer
         layer.borderWidth = 1.0
         layer.cornerRadius = 12.25
+        
+        //OldLace
+        //http://www.blooberry.com/indexdot/color/x11makerFrameNS.htm
         layer.backgroundColor = UIColor.hexStringToUIColor(hex: "#FDF5E6").cgColor
     }
     
