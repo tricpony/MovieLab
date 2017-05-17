@@ -110,30 +110,30 @@ class FavoritesTableViewController: UITableViewController, NSFetchedResultsContr
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        tableView.deselectRow(at: indexPath, animated: true)
-        self.shouldCollapseDetailViewController = false
-        
-        if self.sizeClass().horizontal == .compact {
-            
-            let sb: UIStoryboard = self.storyboard!
-            let destinationVC: UINavigationController = sb.instantiateViewController(withIdentifier: "movieDetailScene") as! UINavigationController
-            var segue: UIStoryboardSegue!
-            
-            segue = UIStoryboardSegue.init(identifier: "movieDetailSegue", source: self, destination: destinationVC) {
-                self.navigationController?.pushViewController(destinationVC.viewControllers[0], animated: true)
-            }
-            
-            self.prepare(for: segue, sender: indexPath)
-            segue.perform()
-            
-        }else{
-            
-            self.performSegue(withIdentifier: "movieDetailSegue", sender: indexPath)
-            
-        }
-    }
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        
+//        tableView.deselectRow(at: indexPath, animated: true)
+//        self.shouldCollapseDetailViewController = false
+//        
+//        if self.sizeClass().horizontal == .compact {
+//            
+//            let sb: UIStoryboard = self.storyboard!
+//            let destinationVC: UINavigationController = sb.instantiateViewController(withIdentifier: "movieDetailScene") as! UINavigationController
+//            var segue: UIStoryboardSegue!
+//            
+//            segue = UIStoryboardSegue.init(identifier: "movieDetailSegue", source: self, destination: destinationVC) {
+//                self.navigationController?.pushViewController(destinationVC.viewControllers[0], animated: true)
+//            }
+//            
+//            self.prepare(for: segue, sender: indexPath)
+//            segue.perform()
+//            
+//        }else{
+//            
+//            self.performSegue(withIdentifier: "movieDetailSegue", sender: indexPath)
+//            
+//        }
+//    }
 
     // MARK: - UISplitViewControllerDelegate
     
@@ -147,16 +147,17 @@ class FavoritesTableViewController: UITableViewController, NSFetchedResultsContr
     // MARK: - Storyboard
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        var vc: DetailViewController
-        var navVC: UINavigationController
-        var movie: Movie
-        let indexPath: NSIndexPath = sender as! NSIndexPath
         
-        movie = fetchedResultsController.object(at: indexPath as IndexPath)
-        navVC = segue.destination as! UINavigationController
-        vc = navVC.topViewController as! DetailViewController
-        vc.movie = movie;
-        vc.title = movie.title
+        if segue.identifier == "movieDetailSegue" {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let movie: Movie = fetchedResultsController.object(at: indexPath)
+                let vc = (segue.destination as! UINavigationController).topViewController as! DetailViewController
+                vc.movie = movie
+                vc.navigationItem.title = movie.title
+                vc.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+                vc.navigationItem.leftItemsSupplementBackButton = true
+            }
+        }
     }
     
 }

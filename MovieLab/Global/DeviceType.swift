@@ -44,4 +44,15 @@ public final class Display {
         }
         return .unknown
     }
+    
+    class func isIphonePlus()->Bool {
+        return (Display.typeIsLike == DisplayType.iphone7plus)
+    }
+    
+    //return true for every display type except plus
+    //so for an iPad this should return false
+    class func isIphone()->Bool {
+        return (Display.typeIsLike != DisplayType.iphone7plus) && (Display.typeIsLike != DisplayType.unknown)
+    }
+    
 }

@@ -20,7 +20,6 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
         super.viewDidLoad()
         let nc = NotificationCenter.default
         self.view.bringSubview(toFront: self.progressBar)
-//        splitViewController?.delegate = self
 
         self.managedObjectContext = CoreDataStack.sharedInstance().mainContext
         nc.addObserver(self, selector:#selector(SearchPanelViewController.advanceProgressBar), name: NSNotification.Name.VN_IncrementActivityCount, object:nil)
@@ -150,6 +149,8 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
         return cell
     }
 
+    // MARK: - Storyboard
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         if segue.identifier == "movieDetailSegue" {
@@ -160,10 +161,8 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
                 vc.navigationItem.title = movie.title
                 vc.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
                 vc.navigationItem.leftItemsSupplementBackButton = true
-                tableView.deselectRow(at: indexPath, animated: false)
            }
         }
-
     }
 
 }

@@ -26,6 +26,7 @@
                     </label>
                 </subviews>
             </view>
+            <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="0.26051476883561642" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="vpc-Rw-PVr" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="L8c-jb-TD4"/>
                 <constraint firstItem="vpc-Rw-PVr" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="Zd2-eu-xR7"/>

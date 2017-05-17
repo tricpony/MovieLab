@@ -35,14 +35,14 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
             nc.topViewController?.navigationItem.leftBarButtonItem = self.displayModeButtonItem
             nc.topViewController?.navigationItem.leftItemsSupplementBackButton = true
         }
-
+        
     }
-    
+        
     // MARK: - UISplitViewControllerDelegate
     
     func splitViewController(_ splitViewController: UISplitViewController, showDetail vc: UIViewController, sender: Any?) -> Bool {
 
-        if (splitViewController.traitCollection.horizontalSizeClass == .compact) && (Display.typeIsLike == DisplayType.iphone7plus) {
+        if (splitViewController.traitCollection.horizontalSizeClass == .compact) && Display.isIphonePlus() {
 
             //this is for iphone plus to prepare it for a landscape rotation, otherwise it will crash on landscape rotation
             //in the delegate method below, separateSecondaryFrom, we handle the rotation to landscape
@@ -94,5 +94,10 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
         
         return nil
     }
+    
+//    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+//        
+//        return true
+//    }
 
 }

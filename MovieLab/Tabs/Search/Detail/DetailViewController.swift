@@ -48,7 +48,27 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
         self.registerUIAssets()
         self.collectionView.backgroundColor = UIColor.clear
         self.managedObjectContext = CoreDataStack.sharedInstance().mainContext
+        
+        if let layout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            let scrollDirection = expressedScrollViewDirection()
+            layout.scrollDirection = scrollDirection
+        }
+        
+        if Display.isIphone() {
+            var done: UIBarButtonItem
+            
+            //on the non-plus phone size class the split view detail expands as a modal, presenting buttom to top
+            //unclear if this is caused by a flaw in my code or Apple or if it is expected behavior
+            //but I could never force a normal push navigation without breaking another size class
+            //consequently, unless we add this button there is no way back to the master view controller
+            done = UIBarButtonItem.init(barButtonSystemItem: .done, target: self, action: #selector(DetailViewController.dismissCompactModal))
+            self.navigationItem.leftBarButtonItem = done
+        }
 
+    }
+
+    func dismissCompactModal() {
+        self.dismiss(animated: true, completion: nil)
     }
 
     @IBAction func toggleStatusFavorite(_ sender: Any) {
@@ -96,27 +116,34 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
         return (searchVC?.tabBarController?.tabBar)!
     }
     
-    // MARK: - UIInterfaceOrientation
-    
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+    func expressedScrollViewDirection()->UICollectionViewScrollDirection {
+        let orientation: UIDeviceOrientation = UIDevice.current.orientation
 
+        if (orientation.isLandscape) {
+            return .horizontal;
+        }
+        return .vertical
+    }
+    
+    // MARK: - UIContentContainer
+    
+    //triggered when the device rotates for all platforms
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
         guard self.collectionView != nil else {
             return
         }
         
-        let orientation: UIDeviceOrientation = UIDevice.current.orientation
-        
-        if (orientation == .landscapeLeft) || (orientation == .landscapeRight) {
-            if let layout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-                layout.scrollDirection = .horizontal
-            }
-        }else{
-            if let layout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-                layout.scrollDirection = .vertical
-            }
+        if let layout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            let scrollDirection = expressedScrollViewDirection()
+            layout.scrollDirection = scrollDirection
         }
-
     }
+    
+    //triggered when size class changes - therefore never called for iPad
+//    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+//    }
     
     // MARK: - UICollectionViewDataSource
 
@@ -149,26 +176,32 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let fullSize: CGSize = self.view.bounds.size
         var splitSize: CGSize!
-        var tabBarHeight: CGFloat = 0.0
         var h: CGFloat!
         var w: CGFloat!
         let device: UIDevice = UIDevice.current
         let orientation: UIDeviceOrientation = device.orientation
-        let tabBar: UITabBar? = self.tabBar()
+        let sizeTrait = self.sizeClass()
+        var tabBar: UITabBar? = self.tabBar()
+        let navBar = self.navigationController?.navigationBar
+        var heightOffset: CGFloat = (navBar?.frame.size.height)! + UIApplication.shared.statusBarFrame.size.height
+        
+        if ((sizeTrait.vertical == .regular) && (sizeTrait.horizontal == .regular)) {
+            tabBar = nil
+        }
         
         if (tabBar != nil) {
-            tabBarHeight = (tabBar?.frame.size.height)!
+            heightOffset += (tabBar?.frame.size.height)!
         }
         
         if (orientation == .landscapeRight) || (orientation == .landscapeLeft) {
-            h = fullSize.height - (COLLECTION_VIEW_BORDER_SIZE * 2.0)
+            h = (fullSize.height - (COLLECTION_VIEW_BORDER_SIZE * 2.0)) - heightOffset
             w = (fullSize.width - (COLLECTION_VIEW_BORDER_SIZE * 2.0))/2.0
         }else{
             
-            h = fullSize.height/2.0
+            h = ((fullSize.height - heightOffset)/2.0) - (COLLECTION_VIEW_BORDER_SIZE * 2.0)
             w = fullSize.width - (COLLECTION_VIEW_BORDER_SIZE * 2.0)
         }
-        splitSize = CGSize.init(width: w, height: h - (tabBarHeight + 15.0))
+        splitSize = CGSize.init(width: w, height: h)
         
         return splitSize
     }
