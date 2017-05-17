@@ -15,6 +15,7 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
     @IBOutlet weak var tableView: UITableView!
     var _fetchedResultsController: NSFetchedResultsController<Movie>? = nil
     var managedObjectContext: NSManagedObjectContext? = nil
+    var serviceCallInFlight: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,10 +42,14 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
         guard (self.searchBar.text?.characters.count)! > 0 else {
             return
         }
+        guard self.serviceCallInFlight == false else {
+            return
+        }
         let query: String = self.searchBar.text!
         let searchArgs: NSDictionary = [
             "query" : query
         ]
+        self.serviceCallInFlight = true
         let serviceRequest = RKNetworkClient();
         
         self.searchBar.resignFirstResponder()
@@ -55,10 +60,12 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
             self._fetchedResultsController = nil
             self.tableView.reloadData()
             self.fadeOutProgressBar()
+            self.serviceCallInFlight = false
 
         }, failureBlock:{ error in
             self.fadeOutProgressBar()
             print("Service Call Failed: \(String(describing: error?.localizedDescription))")
+            self.serviceCallInFlight = false
         })
     }
 
@@ -72,6 +79,12 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
         self.progressBar.setProgress(Float(downloadSizeSoFar/expectedDownloadSize), animated: true)
     }
     
+    // MARK: - UISearchBarDelegate
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.performSearch(searchBar)
+    }
+
     // MARK: - Fetched results controller
     
     var fetchedResultsController: NSFetchedResultsController<Movie> {
