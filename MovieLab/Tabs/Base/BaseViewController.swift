@@ -25,6 +25,7 @@ class BaseViewController: UIViewController {
 
 class SplitViewController: UISplitViewController, UISplitViewControllerDelegate {
     var manuallyHandleSecondaryViewController = false
+    var forwardDelegate: UISplitViewControllerDelegate? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +38,7 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
         }
         
     }
-        
+    
     // MARK: - UISplitViewControllerDelegate
     
     func splitViewController(_ splitViewController: UISplitViewController, showDetail vc: UIViewController, sender: Any?) -> Bool {
@@ -93,6 +94,13 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
         }
         
         return nil
+    }
+    
+    func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewControllerDisplayMode {
+        guard self.forwardDelegate != nil else {
+            return .automatic
+        }
+        return (self.forwardDelegate?.targetDisplayModeForAction!(in: svc))!
     }
     
 //    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {

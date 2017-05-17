@@ -10,7 +10,7 @@ import UIKit
 
 let COLLECTION_VIEW_BORDER_SIZE: CGFloat = 5.0
 
-class DetailViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class DetailViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISplitViewControllerDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     var managedObjectContext: NSManagedObjectContext? = nil
@@ -43,6 +43,7 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
             }
         }
         
+        (self.splitViewController as! SplitViewController).forwardDelegate = self
         device = UIDevice.current
         device.beginGeneratingDeviceOrientationNotifications()
         self.registerUIAssets()
@@ -218,6 +219,22 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
 
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         return false
+    }
+
+    // MARK: - UISplitViewControllerDelegate
+
+    func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewControllerDisplayMode {
+        if svc.displayMode == .allVisible {
+            
+            if Display.isIphone() == false {
+                let orientation: UIDeviceOrientation = UIDevice.current.orientation
+                
+                if (orientation.isLandscape == false) {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
+        return .automatic
     }
 
 }
