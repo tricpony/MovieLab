@@ -27,7 +27,7 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
         
         //debug
 //        self.searchBar.text = "Dirty Harry"
-        self.searchBar.text = "pixar"
+//        self.searchBar.text = "pixar"
     }
     
     override func viewWillAppear(_ animated: Bool) {
