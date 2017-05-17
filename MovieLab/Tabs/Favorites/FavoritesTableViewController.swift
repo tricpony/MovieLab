@@ -110,31 +110,6 @@ class FavoritesTableViewController: UITableViewController, NSFetchedResultsContr
         return cell
     }
     
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        
-//        tableView.deselectRow(at: indexPath, animated: true)
-//        self.shouldCollapseDetailViewController = false
-//        
-//        if self.sizeClass().horizontal == .compact {
-//            
-//            let sb: UIStoryboard = self.storyboard!
-//            let destinationVC: UINavigationController = sb.instantiateViewController(withIdentifier: "movieDetailScene") as! UINavigationController
-//            var segue: UIStoryboardSegue!
-//            
-//            segue = UIStoryboardSegue.init(identifier: "movieDetailSegue", source: self, destination: destinationVC) {
-//                self.navigationController?.pushViewController(destinationVC.viewControllers[0], animated: true)
-//            }
-//            
-//            self.prepare(for: segue, sender: indexPath)
-//            segue.perform()
-//            
-//        }else{
-//            
-//            self.performSegue(withIdentifier: "movieDetailSegue", sender: indexPath)
-//            
-//        }
-//    }
-
     // MARK: - UISplitViewControllerDelegate
     
     func splitViewController(_ splitViewController: UISplitViewController,

@@ -30,6 +30,13 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
         self.searchBar.text = "pixar"
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if self.tableView.indexPathForSelectedRow != nil {
+            self.tableView.deselectRow(at: self.tableView.indexPathForSelectedRow!, animated: false);
+        }
+    }
+    
     func fadeOutProgressBar() {
     
         UIView.animate(withDuration: 1.5, delay: 0, options: UIViewAnimationOptions(rawValue: 0), animations: {

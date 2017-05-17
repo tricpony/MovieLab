@@ -43,7 +43,9 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
             }
         }
         
-        (self.splitViewController as! SplitViewController).forwardDelegate = self
+        if Display.isIphone() == false {
+            (self.splitViewController as! SplitViewController).forwardDelegate = self
+        }
         device = UIDevice.current
         device.beginGeneratingDeviceOrientationNotifications()
         self.registerUIAssets()

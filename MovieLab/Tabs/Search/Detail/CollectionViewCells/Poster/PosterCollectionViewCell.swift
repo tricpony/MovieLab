@@ -21,11 +21,6 @@ class PosterCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
         self.applyShadow()
     }
 
-    func loadData(_ movie: Movie) {
-        self.movie = movie
-        self.loadPosterImage()
-    }
-
     func loadPosterImage() {
         var posterPath: String
         var posterURLString: String
@@ -57,6 +52,13 @@ class PosterCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
             }
         }
         
+    }
+
+    // MARK: - MovieDataProtocol
+
+    func loadData(_ movie: Movie) {
+        self.movie = movie
+        self.loadPosterImage()
     }
 
 }
