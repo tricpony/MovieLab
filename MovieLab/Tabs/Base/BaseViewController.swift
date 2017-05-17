@@ -103,9 +103,4 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
         return (self.forwardDelegate?.targetDisplayModeForAction!(in: svc))!
     }
     
-//    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-//        
-//        return true
-//    }
-
 }
