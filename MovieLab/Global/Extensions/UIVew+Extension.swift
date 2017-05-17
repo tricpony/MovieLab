@@ -61,8 +61,8 @@ extension UIView
         layer.shadowRadius = 3.0
         layer.shouldRasterize = true
         layer.borderColor = UIColor.black.cgColor
+        layer.borderWidth = 1.7
         layer.cornerRadius = 6.25
-        layer.backgroundColor = UIView.hexStringToUIColor(hex: "#F1F1F1").cgColor
         layer.rasterizationScale = UIScreen.main.scale
     }
 }
