@@ -7,15 +7,19 @@
 //
 
 import UIKit
+import RxSwift
 
 let COLLECTION_VIEW_BORDER_SIZE: CGFloat = 5.0
 
 class DetailViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISplitViewControllerDelegate {
 
+    @IBOutlet weak var favoritesNavBarItem: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
     var managedObjectContext: NSManagedObjectContext? = nil
     public var movie: Movie? = nil
-    
+    var rxIsFavorite: Variable<Bool?>!
+    let disposeBag = DisposeBag()
+
     func registerUIAssets() {
         var nib: UINib!
         
@@ -39,9 +43,11 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
             if let indexPath = searchVC?.tableView.indexPathForSelectedRow {
                 let movie: Movie? = searchVC?.fetchedResultsController.object(at: indexPath)
 
-               self.movie = movie
+                self.movie = movie
             }
         }
+        self.rxIsFavorite = Variable(self.movie?.isFavorite)
+        self.registerObservableIsFavorite()
         
         if Display.isIphone() == false {
             (self.splitViewController as! SplitViewController).forwardDelegate = self
@@ -81,6 +87,7 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
         }else{
             movie?.isFavorite = true
         }
+        self.rxIsFavorite.value = self.movie?.isFavorite
         CoreDataStack.sharedInstance().persistContext(self.managedObjectContext, wait: true)
     }
     
@@ -128,6 +135,23 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
         return .vertical
     }
     
+    // MARK: - RxSwift
+
+    private func registerObservableIsFavorite() {
+        self.rxIsFavorite.asObservable()
+            .subscribe(onNext: {
+                isFavorite in
+
+                if isFavorite == true {
+                    self.favoritesNavBarItem.image = UIImage.init(named: "star-filled")
+                }else{
+                    self.favoritesNavBarItem.image = UIImage.init(named: "star-empty")
+                }
+            
+            })
+            .addDisposableTo(disposeBag)
+    }
+
     // MARK: - UIContentContainer
     
     //triggered when the device rotates for all platforms

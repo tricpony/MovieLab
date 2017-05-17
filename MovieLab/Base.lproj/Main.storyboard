@@ -196,6 +196,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="Qog-Za-vIK" id="zrR-1O-Vor"/>
+                        <outlet property="favoritesNavBarItem" destination="9Jn-9Y-cVk" id="Q4Q-4e-J4L"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T5y-RM-N4x" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -277,7 +278,7 @@
     </scenes>
     <resources>
         <image name="icon_search" width="30" height="30"/>
-        <image name="matte_background" width="640" height="960"/>
+        <image name="matte_background" width="320" height="480"/>
         <image name="star-empty" width="30" height="30"/>
         <image name="star-filled" width="30" height="30"/>
     </resources>
