@@ -45,7 +45,7 @@
         <scene sceneID="pBd-hJ-QOC">
             <objects>
                 <viewControllerPlaceholder storyboardIdentifier="SearchNavStackScene" storyboardName="Search" id="npx-BO-0gP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="4fl-cq-1OZ"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="icon_search" id="4fl-cq-1OZ"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PWe-BQ-Ndj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -55,7 +55,7 @@
         <scene sceneID="Kov-aR-FtR">
             <objects>
                 <viewControllerPlaceholder storyboardIdentifier="FavoritesNavStackScene" storyboardName="Favorites" id="Z9F-ah-EcN" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="NVd-MV-iZn"/>
+                    <tabBarItem key="tabBarItem" title="Favorites" image="star-filled" id="NVd-MV-iZn"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ntb-wd-xl9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -70,4 +70,8 @@
             <point key="canvasLocation" x="81" y="-72"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icon_search" width="30" height="30"/>
+        <image name="star-filled" width="30" height="30"/>
+    </resources>
 </document>
