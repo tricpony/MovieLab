@@ -19,6 +19,9 @@
 		D12F0E551ECB2E7500A4FA83 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12F0E541ECB2E7500A4FA83 /* DeviceType.swift */; };
 		D1DDB5D41ECC8B5B004EC800 /* HorizontalLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1DDB5D31ECC8B5B004EC800 /* HorizontalLineView.m */; };
 		D1DDB5D61ECCA34C004EC800 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1DDB5D51ECCA34C004EC800 /* UIColor+Extension.swift */; };
+		D1DDB5DA1ECDBED8004EC800 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1DDB5D91ECDBED8004EC800 /* Search.storyboard */; };
+		D1DDB5DE1ECDBF78004EC800 /* Favorites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1DDB5DD1ECDBF78004EC800 /* Favorites.storyboard */; };
+		D1DDB5E21ECDC0BC004EC800 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1DDB5E11ECDC0BC004EC800 /* Detail.storyboard */; };
 		D1DDD7111EC29B83000815BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1DDD7101EC29B83000815BC /* AppDelegate.swift */; };
 		D1DDD71B1EC29B83000815BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1DDD7191EC29B83000815BC /* Main.storyboard */; };
 		D1DDD71D1EC29B83000815BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1DDD71C1EC29B83000815BC /* Assets.xcassets */; };
@@ -48,6 +51,9 @@
 		D1DDB5D21ECC8B5B004EC800 /* HorizontalLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalLineView.h; sourceTree = "<group>"; };
 		D1DDB5D31ECC8B5B004EC800 /* HorizontalLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalLineView.m; sourceTree = "<group>"; };
 		D1DDB5D51ECCA34C004EC800 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		D1DDB5D91ECDBED8004EC800 /* Search.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
+		D1DDB5DD1ECDBF78004EC800 /* Favorites.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Favorites.storyboard; sourceTree = "<group>"; };
+		D1DDB5E11ECDC0BC004EC800 /* Detail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
 		D1DDD70D1EC29B83000815BC /* MovieLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1DDD7101EC29B83000815BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D1DDD71A1EC29B83000815BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -93,8 +99,9 @@
 		D12F0E011EC4F07C00A4FA83 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				D12F0E111EC6E85600A4FA83 /* CollectionViewCells */,
 				D12F0E021EC4F0BE00A4FA83 /* DetailViewController.swift */,
+				D1DDB5E11ECDC0BC004EC800 /* Detail.storyboard */,
+				D12F0E111EC6E85600A4FA83 /* CollectionViewCells */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -209,6 +216,7 @@
 		D1DDD7281EC29FCB000815BC /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
+				D1DDB5DD1ECDBF78004EC800 /* Favorites.storyboard */,
 				D12F0DFF1EC460C900A4FA83 /* FavoritesTableViewController.swift */,
 			);
 			path = Favorites;
@@ -217,6 +225,7 @@
 		D1DDD7291EC29FCB000815BC /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				D1DDB5D91ECDBED8004EC800 /* Search.storyboard */,
 				D1DDD7501EC32996000815BC /* SearchPanelViewController.swift */,
 				D12F0E011EC4F07C00A4FA83 /* Detail */,
 			);
@@ -364,7 +373,10 @@
 				D1DDD7201EC29B83000815BC /* LaunchScreen.storyboard in Resources */,
 				D1DDD71D1EC29B83000815BC /* Assets.xcassets in Resources */,
 				D12F0E231EC6EC0100A4FA83 /* PosterCollectionViewCell.xib in Resources */,
+				D1DDB5E21ECDC0BC004EC800 /* Detail.storyboard in Resources */,
 				D1DDD71B1EC29B83000815BC /* Main.storyboard in Resources */,
+				D1DDB5DE1ECDBF78004EC800 /* Favorites.storyboard in Resources */,
+				D1DDB5DA1ECDBED8004EC800 /* Search.storyboard in Resources */,
 				D12F0E211EC6EC0100A4FA83 /* DetailsCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
