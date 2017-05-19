@@ -12,6 +12,7 @@ let POSTER_COLLECTION_CELL_ID = "POSTER_COLLECTION_CELL_ID"
 
 class PosterCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
 
+    @IBOutlet weak var missingPosterLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var posterImageView: UIImageView!
     var movie: Movie!
@@ -19,6 +20,7 @@ class PosterCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.applyShadow()
+        self.missingPosterLabel.isHidden = true
     }
 
     func loadPosterImage() {
@@ -26,6 +28,8 @@ class PosterCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
         var posterURLString: String
         
         guard (self.movie?.posterPath != nil) else {
+            self.missingPosterLabel.isHidden = false
+            self.activityIndicator.isHidden = true
             return
         }
         posterPath = (self.movie?.posterPath)!

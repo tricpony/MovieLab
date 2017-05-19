@@ -25,19 +25,28 @@
                         <rect key="frame" x="186" y="128" width="37" height="37"/>
                         <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </activityIndicatorView>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Poster Not Found" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="poT-Lp-mPP">
+                        <rect key="frame" x="137" y="135.5" width="134" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="Gpa-ZI-msm" secondAttribute="bottom" constant="5" id="6Tg-Fd-M6C"/>
+                <constraint firstItem="poT-Lp-mPP" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="8zM-9t-s4F"/>
                 <constraint firstItem="Gpa-ZI-msm" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="JK3-Ma-Zwi"/>
                 <constraint firstAttribute="trailing" secondItem="Gpa-ZI-msm" secondAttribute="trailing" constant="5" id="cJf-mO-FoE"/>
                 <constraint firstItem="6Uu-2s-DKi" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="d7k-wF-Vkz"/>
                 <constraint firstItem="Gpa-ZI-msm" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="ozY-yV-ecU"/>
                 <constraint firstItem="6Uu-2s-DKi" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="sPc-xm-kYA"/>
+                <constraint firstItem="poT-Lp-mPP" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="xjT-qq-bJh"/>
             </constraints>
             <size key="customSize" width="408" height="292"/>
             <connections>
                 <outlet property="activityIndicator" destination="6Uu-2s-DKi" id="hzP-Aw-NFO"/>
+                <outlet property="missingPosterLabel" destination="poT-Lp-mPP" id="x1Q-wP-vmf"/>
                 <outlet property="posterImageView" destination="Gpa-ZI-msm" id="cf5-sr-STp"/>
             </connections>
             <point key="canvasLocation" x="-560" y="-35"/>
