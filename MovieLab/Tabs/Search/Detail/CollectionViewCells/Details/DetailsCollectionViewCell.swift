@@ -15,6 +15,7 @@ protocol MovieDataProtocol {
 }
 class DetailsCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
 
+    @IBOutlet weak var genre: UILabel!
     @IBOutlet weak var overViewHeaderBackgroundView: UIView!
     @IBOutlet weak var overViewHeaderLabel: UILabel!
     @IBOutlet weak var headerBackgroundView: UIView!
@@ -74,6 +75,13 @@ class DetailsCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
         self.movie = movie
         self.overViewLabel.text = movie.overview
         self.titleLabel.text = movie.title
+        
+        
+        if (self.movie.genres?.anyObject()) != nil {
+            let genre: Genre = self.movie.genres?.anyObject() as! Genre
+            
+            self.genre.text = genre.name.characters.count == 0 ? "Unknown":genre.name
+        }
         
         if Display.isIphonePlus() || Display.isIphone() {
             let font = self.overViewLabel.font

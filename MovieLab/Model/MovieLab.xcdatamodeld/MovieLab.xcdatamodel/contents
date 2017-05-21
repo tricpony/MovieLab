@@ -3,6 +3,7 @@
     <entity name="Genre" representedClassName="Genre" syncable="YES">
         <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="genreID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="movies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Movie" inverseName="genres" inverseEntity="Movie" syncable="YES"/>
     </entity>
     <entity name="Movie" representedClassName="Movie">
@@ -20,7 +21,7 @@
         <userInfo/>
     </entity>
     <elements>
-        <element name="Genre" positionX="261" positionY="243" width="128" height="90"/>
+        <element name="Genre" positionX="261" positionY="243" width="128" height="105"/>
         <element name="Movie" positionX="261" positionY="189" width="128" height="180"/>
     </elements>
 </model>

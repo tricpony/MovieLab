@@ -73,6 +73,21 @@ class CoreDataUtility {
         return request!
     }
     
+    class func fetchGenreCount(ctx: NSManagedObjectContext)->Int {
+        let entity = NSEntityDescription.entity(forEntityName: "Genre", in: ctx)
+        let request = NSFetchRequest<NSFetchRequestResult>.init(entityName: (entity?.name)!)
+        var count: Int!
+        
+        do {
+            try count = ctx.count(for: request)
+
+        } catch {
+            count = 0
+        }
+
+        return count
+    }
+    
     // MARK: - Pre-fabbed predicates
     
     class func equalPredicate(key: String, value: Any) -> NSPredicate {

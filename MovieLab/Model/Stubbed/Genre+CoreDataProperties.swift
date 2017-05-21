@@ -18,7 +18,7 @@ extension Genre {
 
     @NSManaged public var createDate: NSDate?
     @NSManaged public var genreID: Int16
-    @NSManaged public var movieID: Int32
+    @NSManaged public var name: String
     @NSManaged public var movies: NSSet?
 }
 

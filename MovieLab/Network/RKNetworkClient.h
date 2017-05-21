@@ -43,4 +43,7 @@ typedef void (^VNRestKitOperationProgressBlock)(NSUInteger bytesWritten, long lo
                                       successBlock:(SuccessRKServiceCompletion)successBlock
                                       failureBlock:(FailureRKServiceCompletion)failureBlock;
 
+- (void)performNetworkMovieGenreFetchWithsuccessBlock:(SuccessRKServiceCompletion)successBlock
+                                                  failureBlock:(FailureRKServiceCompletion)failureBlock;
+
 @end

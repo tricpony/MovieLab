@@ -21,8 +21,8 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
         super.viewDidLoad()
         let nc = NotificationCenter.default
         self.view.bringSubview(toFront: self.progressBar)
-
         self.managedObjectContext = CoreDataStack.sharedInstance().mainContext
+        self.preFillGenreTable()
         nc.addObserver(self, selector:#selector(SearchPanelViewController.advanceProgressBar), name: NSNotification.Name.VN_IncrementActivityCount, object:nil)
         
         //debug
@@ -44,6 +44,21 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
         }, completion: nil)
     }
     
+    func preFillGenreTable() {
+        
+        DispatchQueue.global(qos: .background).async {
+            var genreCount = 0
+            
+            genreCount = CoreDataUtility.fetchGenreCount(ctx: self.managedObjectContext!)
+            if genreCount == 0 {
+                
+                let serviceRequest = RKNetworkClient();
+                serviceRequest.performNetworkMovieGenreFetchWithsuccessBlock(nil, failureBlock: nil)
+            }
+        }
+
+    }
+
     @IBAction func performSearch(_ sender: Any) {
         
         guard (self.searchBar.text?.characters.count)! > 0 else {

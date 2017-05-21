@@ -84,8 +84,20 @@
                                     <constraint firstItem="dkS-78-XpT" firstAttribute="leading" secondItem="T41-gf-QOd" secondAttribute="leading" constant="12" id="xjK-cV-23M"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genre:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaB-t5-UDd" userLabel="Genre Label">
+                                <rect key="frame" x="20" y="48" width="55" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unknown" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VGM-9l-hH3" userLabel="Genre Value">
+                                <rect key="frame" x="83" y="48" width="77.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HP1-qb-SqI">
-                                <rect key="frame" x="20" y="40" width="392" height="183"/>
+                                <rect key="frame" x="20" y="74" width="392" height="0.0"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -93,11 +105,15 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="HP1-qb-SqI" secondAttribute="bottom" constant="5" id="86m-ID-gUX"/>
+                            <constraint firstItem="HP1-qb-SqI" firstAttribute="top" secondItem="zaB-t5-UDd" secondAttribute="bottom" constant="5" id="0Gc-dU-Icd"/>
+                            <constraint firstItem="VGM-9l-hH3" firstAttribute="leading" secondItem="zaB-t5-UDd" secondAttribute="trailing" constant="8" symbolic="YES" id="0Sr-av-i8f"/>
                             <constraint firstItem="T41-gf-QOd" firstAttribute="top" secondItem="jQ9-OH-eqJ" secondAttribute="top" id="BW5-q6-awb"/>
                             <constraint firstItem="T41-gf-QOd" firstAttribute="leading" secondItem="jQ9-OH-eqJ" secondAttribute="leading" id="ISD-2n-O6w"/>
-                            <constraint firstItem="HP1-qb-SqI" firstAttribute="top" secondItem="T41-gf-QOd" secondAttribute="bottom" id="kJc-rN-xMu"/>
+                            <constraint firstItem="zaB-t5-UDd" firstAttribute="leading" secondItem="svJ-e3-Hbw" secondAttribute="leading" id="ORa-ux-aHb"/>
+                            <constraint firstItem="VGM-9l-hH3" firstAttribute="top" secondItem="zaB-t5-UDd" secondAttribute="top" id="jrb-Me-WED"/>
                             <constraint firstAttribute="trailing" secondItem="HP1-qb-SqI" secondAttribute="trailing" constant="5" id="ole-BN-GsF"/>
+                            <constraint firstItem="zaB-t5-UDd" firstAttribute="top" secondItem="T41-gf-QOd" secondAttribute="bottom" constant="8" id="osJ-5Q-Mgy"/>
+                            <constraint firstItem="HP1-qb-SqI" firstAttribute="leading" secondItem="zaB-t5-UDd" secondAttribute="leading" id="wDW-kI-lfj"/>
                             <constraint firstAttribute="trailing" secondItem="T41-gf-QOd" secondAttribute="trailing" id="xRD-gR-rcR"/>
                         </constraints>
                     </view>
@@ -105,7 +121,6 @@
             </view>
             <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="0.26051476883561642" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="HP1-qb-SqI" firstAttribute="leading" secondItem="vpc-Rw-PVr" secondAttribute="leading" id="0wH-tn-u0i"/>
                 <constraint firstItem="svJ-e3-Hbw" firstAttribute="leading" secondItem="vpc-Rw-PVr" secondAttribute="leading" id="4JN-h6-GbP"/>
                 <constraint firstItem="dkS-78-XpT" firstAttribute="height" secondItem="BNc-3a-3nx" secondAttribute="height" id="4lf-JP-Klj"/>
                 <constraint firstAttribute="bottom" secondItem="jQ9-OH-eqJ" secondAttribute="bottom" id="AGJ-39-ANL"/>
@@ -121,6 +136,7 @@
             <size key="customSize" width="417" height="322"/>
             <connections>
                 <outlet property="bottomCanvas" destination="jQ9-OH-eqJ" id="pHN-ob-Ups"/>
+                <outlet property="genre" destination="VGM-9l-hH3" id="Zdx-zz-JFi"/>
                 <outlet property="headerBackgroundView" destination="BNc-3a-3nx" id="TR4-fe-exH"/>
                 <outlet property="headerLabel" destination="xNg-b6-T1a" id="7f6-C8-6Fh"/>
                 <outlet property="overViewHeaderBackgroundView" destination="dkS-78-XpT" id="zPY-z9-xJA"/>
@@ -130,7 +146,7 @@
                 <outlet property="topCanvas" destination="y1T-WB-iRw" id="Hmv-Yk-HrQ"/>
                 <outlet property="topCanvasHeightConstraint" destination="LqE-dF-th4" id="ITI-MM-tqZ"/>
             </connections>
-            <point key="canvasLocation" x="-1264" y="-301"/>
+            <point key="canvasLocation" x="-1628" y="-329"/>
         </collectionViewCell>
     </objects>
 </document>
