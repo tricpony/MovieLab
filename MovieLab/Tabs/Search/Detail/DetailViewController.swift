@@ -46,6 +46,7 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
                 self.movie = movie
             }
         }
+        self.loadCast()
         self.rxIsFavorite = Variable(self.movie?.isFavorite)
         self.registerObservableIsFavorite()
         
@@ -76,6 +77,35 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
 
     }
 
+    func loadCast() {
+        
+        guard self.movie != nil else {
+            return
+        }
+        guard self.movie?.cast?.count == 0 else {
+            return
+        }
+        
+        let serviceRequest = RKNetworkClient();
+        let castAsNSNumber = NSNumber(value: (self.movie?.movieID)!)
+
+        serviceRequest.performNetworkCastFetch(matchingMovieID: castAsNSNumber, successBlock: { results in
+
+            for _actor in results! {
+                let actor: Actor = _actor as! Actor
+                
+                self.movie?.addToCast(actor)
+                actor.movieID = (self.movie?.movieID)!
+            }
+            CoreDataStack.sharedInstance().persistContext(self.managedObjectContext, wait: true)
+            self.collectionView.reloadItems(at: [IndexPath.init(row: 1, section: 0)])
+            print("Service Passed")
+        }, failureBlock:{ error in
+            print("Service Call Failed: \(String(describing: error?.localizedDescription))")
+        })
+    
+    }
+    
     func dismissCompactModal() {
         self.dismiss(animated: true, completion: nil)
     }
@@ -257,6 +287,8 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
                 
                 if (orientation.isLandscape == false) {
                     self.collectionView.reloadData()
+                }else{
+                    self.collectionView.reloadItems(at: [IndexPath.init(row: 1, section: 0)])
                 }
             }
         }

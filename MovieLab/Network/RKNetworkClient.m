@@ -19,8 +19,23 @@ NSString * const API_CoreFieldReleaseDateKey = @"release_date";
 NSString * const API_CoreFieldTitleKey = @"title";
 NSString * const API_CoreFieldGenreNameKey = @"name";
 NSString * const API_CoreFieldGenreKey = @"genre_ids";
+
+NSString * const API_CoreFieldCastIDKey = @"cast_id";
+NSString * const API_CoreFieldActorIDKey = @"id";
+NSString * const API_CoreFieldCreditIDKey = @"credit_id";
+NSString * const API_CoreFieldCastCharacterKey = @"character";
+NSString * const API_CoreFieldCastNameKey = @"name";
+NSString * const API_CoreFieldCastProfilePathKey = @"profile_path";
+NSString * const API_CoreFieldCastOrderKey = @"order";
+
+#pragma mark - Service End points
 NSString * const API_MovieSearchEP = @"search/movie";
-NSString * const API_MovieSGenreEP = @"genre/movie/list";
+NSString * const API_MovieGenreEP = @"genre/movie/list";
+NSString * const API_MovieCastEP = @"movie/{movie_id}/credits";
+
+
+NSString * const API_BaseMovieCastURL = @"http://image.tmdb.org/t/p/w500/";
+
 
 #pragma mark - Notification UserInfo Keys
 
@@ -73,6 +88,27 @@ NSString * const VN_IncrementActivityCountNotification = @"VN_IncrementActivityC
     return requestMapping;
 }
 
++ (RKEntityMapping*)movieCastRequestMapping
+{
+    RKManagedObjectStore * mos = [[RKObjectManager sharedManager] managedObjectStore];
+    RKEntityMapping *requestMapping = [RKEntityMapping mappingForEntityForName:@"Actor" inManagedObjectStore:mos];
+    
+    [requestMapping addAttributeMappingsFromDictionary:[self getRKAttributeMovieCastMapping]];
+    [requestMapping setIdentificationAttributes:@[@"actorID"]];
+//    RKEntityMapping *movieMapping = [RKEntityMapping mappingForEntityForName:@"Movie" inManagedObjectStore:mos];
+    
+//    [movieMapping addAttributeMappingsFromDictionary:[self getRKAttributeMovieMapping]];
+//    [movieMapping setIdentificationAttributes:[self getRKIdentificationAttributes]];
+//    [movieMapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:API_CoreFieldMovieIDKey toKeyPath:@"movieID"]];
+//    
+//    //assign relationship mappings
+//    [requestMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"cast"
+//                                                                                   toKeyPath:@"movies"
+//                                                                                 withMapping:movieMapping]];
+    
+    return requestMapping;
+}
+
 + (NSString*)rkKeyPath
 {
     return @"results";
@@ -96,6 +132,19 @@ NSString * const VN_IncrementActivityCountNotification = @"VN_IncrementActivityC
              };
 }
 
++ (NSDictionary*)getRKAttributeMovieCastMapping
+{
+    return @{
+             API_CoreFieldCastIDKey : @"castID",
+             API_CoreFieldCastNameKey : @"name",
+             API_CoreFieldActorIDKey : @"actorID",
+             API_CoreFieldCreditIDKey : @"creditID",
+             API_CoreFieldCastCharacterKey : @"charactor",
+             API_CoreFieldCastProfilePathKey : @"profilePath",
+             API_CoreFieldCastOrderKey : @"order"
+             };
+}
+
 + (NSArray*)getRKIdentificationAttributes
 {
     return @[@"movieID"];
@@ -115,8 +164,20 @@ NSString * const VN_IncrementActivityCountNotification = @"VN_IncrementActivityC
 {
     RKResponseDescriptor *descriptor = [RKResponseDescriptor responseDescriptorWithMapping:[self movieGenreRequestMapping]
                                                                                     method:RKRequestMethodGET
-                                                                               pathPattern:API_MovieSGenreEP
+                                                                               pathPattern:API_MovieGenreEP
                                                                                    keyPath:@"genres"
+                                                                               statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    return descriptor;
+}
+
++ (RKResponseDescriptor*)getSyncDownMovieCastRKDescriptorForMovieID:(NSNumber*)movieID
+{
+    NSString *castEndPoint = [API_MovieCastEP stringByReplacingOccurrencesOfString:@"{movie_id}" withString:[movieID stringValue]];
+    
+    RKResponseDescriptor *descriptor = [RKResponseDescriptor responseDescriptorWithMapping:[self movieCastRequestMapping]
+                                                                                    method:RKRequestMethodGET
+                                                                               pathPattern:castEndPoint
+                                                                                   keyPath:@"cast"
                                                                                statusCodes:[NSIndexSet indexSetWithIndex:200]];
     return descriptor;
 }
@@ -141,6 +202,16 @@ NSString * const VN_IncrementActivityCountNotification = @"VN_IncrementActivityC
     }
 }
 
+- (void)configureCastRequestClient
+{
+    if (!self.client) {
+        self.client = [[AFRKHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:API_BaseMovieURL]];
+        [[RKObjectManager sharedManager] setHTTPClient:self.client];
+        [[RKObjectManager sharedManager] setRequestSerializationMIMEType:RKMIMETypeJSON];
+        [[RKObjectManager sharedManager] setAcceptHeaderWithMIMEType:RKMIMETypeJSON];
+    }
+}
+
 - (void)addMovieDescriptors
 {
     if (!self.didConfigDescriptors) {
@@ -156,6 +227,15 @@ NSString * const VN_IncrementActivityCountNotification = @"VN_IncrementActivityC
         self.didConfigDescriptors = YES;
     }
 }
+
+- (void)addMovieCastDescriptors:(NSNumber*)movieID
+{
+    if (!self.didConfigDescriptors) {
+        [[RKObjectManager sharedManager] addResponseDescriptorsFromArray:@[[[self class] getSyncDownMovieCastRKDescriptorForMovieID:movieID]]];
+        self.didConfigDescriptors = YES;
+    }
+}
+
 
 #pragma mark ---- KVO for progress ----
 
@@ -223,6 +303,31 @@ NSString * const VN_IncrementActivityCountNotification = @"VN_IncrementActivityC
                                               }];
 }
 
+- (void)performNetworkCastFetchMatchingMovieID:(NSNumber*)movieID
+                                  successBlock:(SuccessRKServiceCompletion)successBlock
+                                  failureBlock:(FailureRKServiceCompletion)failureBlock
+{
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithCapacity:2];
+    
+    [self configureCastRequestClient];
+    [self addMovieCastDescriptors:movieID];
+    
+    parameters[@"api_key"] = @"84da8aabe6e251daaaacea2b0db89dfb";
+    NSString *castEndPoint = [API_MovieCastEP stringByReplacingOccurrencesOfString:@"{movie_id}" withString:[movieID stringValue]];
+
+    [[RKObjectManager sharedManager] getObjectsAtPath:castEndPoint
+                                           parameters:parameters
+                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  
+                                                  successBlock(mappingResult.array);
+                                                  
+                                              } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                  
+                                                  failureBlock(error);
+                                                  
+                                              }];
+}
+
 - (void)performNetworkMovieGenreFetchWithsuccessBlock:(SuccessRKServiceCompletion)successBlock
                                                   failureBlock:(FailureRKServiceCompletion)failureBlock
 {
@@ -233,7 +338,7 @@ NSString * const VN_IncrementActivityCountNotification = @"VN_IncrementActivityC
 
     parameters[@"api_key"] = @"84da8aabe6e251daaaacea2b0db89dfb";
     
-    [[RKObjectManager sharedManager] getObjectsAtPath:API_MovieSGenreEP
+    [[RKObjectManager sharedManager] getObjectsAtPath:API_MovieGenreEP
                                            parameters:parameters
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                   if (successBlock) {
