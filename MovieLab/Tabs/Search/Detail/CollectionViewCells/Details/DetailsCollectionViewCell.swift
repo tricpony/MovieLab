@@ -89,10 +89,12 @@ class DetailsCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
         }
         
         self.clearAllActorLabels()
-        for nextActor in self.movie.cast! where (labelArray.count > index) {
+        let orderedCast: Array<Actor> = self.movie.orderedCast()
+        
+        for nextActor in orderedCast where (labelArray.count > index) {
             let nextLabel: UILabel = labelArray[index]!
             
-            nextLabel.text = (nextActor as! Actor).name
+            nextLabel.text = nextActor.name
             
             if Display.isIphonePlus() || Display.isIphone() {
                 let font = nextLabel.font

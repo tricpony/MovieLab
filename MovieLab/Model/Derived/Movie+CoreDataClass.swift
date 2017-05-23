@@ -16,4 +16,10 @@ public class Movie: NSManagedObject {
         super.awakeFromInsert()
         setValue(NSDate(), forKey:"createDate")
     }
+    
+    func orderedCast()->Array<Actor> {
+        let desc: NSSortDescriptor = NSSortDescriptor.init(key: "order", ascending: true)
+        return self.cast?.sortedArray(using: [desc]) as! Array<Actor>
+    }
+    
 }
