@@ -20,7 +20,7 @@ class DetailsCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
     @IBOutlet weak var genreHorizontalLineView: HorizontalLineView!
     @IBOutlet weak var genre: UILabel!
     @IBOutlet weak var overViewHeaderBackgroundView: UIView!
-    @IBOutlet weak var overViewHeaderLabel: UILabel!
+    @IBOutlet weak var productionNotesLabel: UILabel!
     @IBOutlet weak var headerBackgroundView: UIView!
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var topCanvasHeightConstraint: NSLayoutConstraint!
@@ -45,7 +45,7 @@ class DetailsCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
         super.awakeFromNib()
         self.applyShadow()
         self.headerLabel.textColor = UIColor.init(red: 65.0/255.0, green: 122.0/255.0, blue: 160.0/255.0, alpha: 1.0)
-        self.overViewHeaderLabel.textColor = UIColor.init(red: 65.0/255.0, green: 122.0/255.0, blue: 160.0/255.0, alpha: 1.0)
+        self.productionNotesLabel.textColor = UIColor.init(red: 65.0/255.0, green: 122.0/255.0, blue: 160.0/255.0, alpha: 1.0)
         self.originalWidthConstraintConstant = self.actorFourWidthConstraint.constant
         
         var layer: CALayer = self.headerBackgroundView.layer
@@ -78,10 +78,22 @@ class DetailsCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
         }
     }
 
-    func populateActorLabels() {
-        let labelArray = [self.actorLabelOne,self.actorLabelTwo,self.actorLabelThree,self.actorLabelFour,self.actorLabelFive,self.actorLabelSix];
-        var index = 0
+    func changeFontSize(forLabels: Array<UILabel>, byHowMuch: Float) {
         
+        for nextLabel in forLabels where (Display.isIphonePlus() || Display.isIphone()) {
+            let font = nextLabel.font
+            var smallerFont: UIFont
+            
+            smallerFont = UIFont.init(name: (font?.fontName)!, size: (font?.pointSize)! - 5.0)!
+            nextLabel.font = smallerFont
+        }
+
+    }
+    
+    func populateActorLabels() {
+        var labelArray = [self.actorLabelOne,self.actorLabelTwo,self.actorLabelThree,self.actorLabelFour,self.actorLabelFive,self.actorLabelSix];
+        var index = 0
+
         if Display.isIphone() == false {
             let orientation: UIDeviceOrientation = UIDevice.current.orientation
             
@@ -95,18 +107,14 @@ class DetailsCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
             let nextLabel: UILabel = labelArray[index]!
             
             nextLabel.text = nextActor.name
-            
-            if Display.isIphonePlus() || Display.isIphone() {
-                let font = nextLabel.font
-                var smallerFont: UIFont
-                
-                smallerFont = UIFont.init(name: (font?.fontName)!, size: (font?.pointSize)! - 5.0)!
-                nextLabel.font = smallerFont
-            }
-
             index += 1
         }
+        let sizeClass = BaseViewController.sizeClass()
         
+        if (sizeClass.vertical == .compact) && (sizeClass.horizontal == .regular) {
+            labelArray.append(self.productionNotesLabel);
+            self.changeFontSize(forLabels: labelArray as! Array<UILabel>, byHowMuch: -5.0)
+        }
     }
     
     func configureCanvas() {
@@ -157,13 +165,10 @@ class DetailsCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
             self.clearAllActorLabels()
             self.populateActorLabels()
         }
+        let sizeClass = BaseViewController.sizeClass()
         
-        if Display.isIphonePlus() || Display.isIphone() {
-            let font = self.overViewLabel.font
-            var smallerFont: UIFont
-            
-            smallerFont = UIFont.init(name: (font?.fontName)!, size: (font?.pointSize)! - 5.0)!
-            self.overViewLabel.font = smallerFont
+        if (sizeClass.vertical == .compact) && (sizeClass.horizontal == .regular) {
+            self.changeFontSize(forLabels: [self.overViewLabel], byHowMuch: -5.0)
         }
     }
 

@@ -12,7 +12,6 @@ class FavoritesTableViewController: UITableViewController, NSFetchedResultsContr
 
     var _fetchedResultsController: NSFetchedResultsController<Movie>? = nil
     var managedObjectContext: NSManagedObjectContext? = nil
-    public var shouldCollapseDetailViewController: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +19,18 @@ class FavoritesTableViewController: UITableViewController, NSFetchedResultsContr
         self.managedObjectContext = CoreDataStack.sharedInstance().mainContext
         self.clearsSelectionOnViewWillAppear = false
 
+        let sizeClass = BaseViewController.sizeClass()
+        
+        if (sizeClass.vertical == .regular) && (sizeClass.horizontal == .compact) {
+            (self.splitViewController as! SplitViewController).isOnFavorites = true
+        }
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if self.tableView.indexPathForSelectedRow != nil {
+            self.tableView.deselectRow(at: self.tableView.indexPathForSelectedRow!, animated: false);
+        }
     }
 
     func sizeClass() -> (vertical: UIUserInterfaceSizeClass, horizontal: UIUserInterfaceSizeClass) {
@@ -110,15 +121,6 @@ class FavoritesTableViewController: UITableViewController, NSFetchedResultsContr
         return cell
     }
     
-    // MARK: - UISplitViewControllerDelegate
-    
-    func splitViewController(_ splitViewController: UISplitViewController,
-                             collapseSecondary secondaryViewController: UIViewController,
-                             onto primaryViewController: UIViewController) -> Bool {
-        
-        return self.shouldCollapseDetailViewController
-    }
-
     // MARK: - Storyboard
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

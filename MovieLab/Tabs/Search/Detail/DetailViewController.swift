@@ -50,7 +50,7 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
         self.rxIsFavorite = Variable(self.movie?.isFavorite)
         self.registerObservableIsFavorite()
         
-        if Display.isIphone() == false {
+        if (Display.isIphone() == false) && (self.splitViewController != nil) {
             (self.splitViewController as! SplitViewController).forwardDelegate = self
         }
         device = UIDevice.current
@@ -232,6 +232,11 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let fullSize: CGSize = self.view.bounds.size
+        
+        guard fullSize.height > 0 else {
+            return CGRect.zero.size
+        }
+        
         var splitSize: CGSize!
         var h: CGFloat!
         var w: CGFloat!
@@ -283,13 +288,7 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
         if svc.displayMode == .allVisible {
             
             if Display.isIphone() == false {
-                let orientation: UIDeviceOrientation = UIDevice.current.orientation
-                
-                if (orientation.isLandscape == false) {
-                    self.collectionView.reloadData()
-                }else{
-                    self.collectionView.reloadItems(at: [IndexPath.init(row: 1, section: 0)])
-                }
+                self.collectionView.reloadData()
             }
         }
         return .automatic

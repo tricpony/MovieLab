@@ -65,7 +65,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dkS-78-XpT">
                                         <rect key="frame" x="12" y="5" width="383" height="30"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Production Notes:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="svJ-e3-Hbw">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Production Notes:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="svJ-e3-Hbw" userLabel="Production Notes">
                                                 <rect key="frame" x="8" y="2" width="190" height="27"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="22"/>
                                                 <nil key="textColor"/>
@@ -234,8 +234,8 @@
                 <outlet property="headerBackgroundView" destination="BNc-3a-3nx" id="TR4-fe-exH"/>
                 <outlet property="headerLabel" destination="xNg-b6-T1a" id="7f6-C8-6Fh"/>
                 <outlet property="overViewHeaderBackgroundView" destination="dkS-78-XpT" id="zPY-z9-xJA"/>
-                <outlet property="overViewHeaderLabel" destination="svJ-e3-Hbw" id="X51-o2-T9L"/>
                 <outlet property="overViewLabel" destination="HP1-qb-SqI" id="lRp-bv-7Gk"/>
+                <outlet property="productionNotesLabel" destination="svJ-e3-Hbw" id="pfV-oW-EMB"/>
                 <outlet property="titleLabel" destination="vpc-Rw-PVr" id="K8a-v7-Emc"/>
                 <outlet property="topCanvas" destination="y1T-WB-iRw" id="Hmv-Yk-HrQ"/>
                 <outlet property="topCanvasHeightConstraint" destination="LqE-dF-th4" id="ITI-MM-tqZ"/>
