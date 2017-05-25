@@ -287,6 +287,7 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
     func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewControllerDisplayMode {
         if svc.displayMode == .allVisible {
             
+            //this has the side effect of resizing label fonts
             if Display.isIphone() == false {
                 self.collectionView.reloadData()
             }
