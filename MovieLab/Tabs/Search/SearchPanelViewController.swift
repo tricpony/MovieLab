@@ -61,7 +61,7 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
 
     @IBAction func performSearch(_ sender: Any) {
         
-        guard (self.searchBar.text?.characters.count)! > 0 else {
+        guard (self.searchBar.text?.count)! > 0 else {
             return
         }
         guard self.serviceCallInFlight == false else {

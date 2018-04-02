@@ -39,7 +39,7 @@ class CoreDataUtility {
         
         predicateV = NSPredicate(format: "overview contains[c] %@", query)
         predicateV = NSCompoundPredicate.init(orPredicateWithSubpredicates: [predicateC, predicateV])
-        strArray = query.characters.split(separator: " ").map(String.init)
+        strArray = query.split(separator: " ").map(String.init)
         
         for str in strArray where strArray.count > 1 {
             predArray.append(NSPredicate(format: "overview contains[c] %@", str))

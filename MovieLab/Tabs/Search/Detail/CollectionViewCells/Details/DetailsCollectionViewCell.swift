@@ -158,7 +158,7 @@ class DetailsCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
         if (self.movie.genres?.anyObject()) != nil {
             let genre: Genre = self.movie.genres?.anyObject() as! Genre
             
-            self.genre.text = genre.name.characters.count == 0 ? "Unknown":genre.name
+            self.genre.text = genre.name.count == 0 ? "Unknown":genre.name
         }
         
         if (self.movie.cast?.count)! > 0 {
