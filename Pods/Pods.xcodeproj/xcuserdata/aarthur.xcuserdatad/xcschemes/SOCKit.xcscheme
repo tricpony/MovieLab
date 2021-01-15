@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'C69545946359C193A28E5BD1BB61ABC6'
-               BlueprintName = 'SOCKit'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'SOCKit.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "C6A252903140EF5E86B280405B4EE5AC"
+               BuildableName = "SOCKit.framework"
+               BlueprintName = "SOCKit"
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

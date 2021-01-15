@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxRelay
 
 let COLLECTION_VIEW_BORDER_SIZE: CGFloat = 5.0
 
@@ -17,7 +18,7 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
     @IBOutlet weak var collectionView: UICollectionView!
     var managedObjectContext: NSManagedObjectContext? = nil
     public var movie: Movie? = nil
-    var rxIsFavorite: Variable<Bool?>!
+    var rxIsFavorite = BehaviorRelay<Bool>(value: false)
     let disposeBag = DisposeBag()
 
     func registerUIAssets() {
@@ -47,7 +48,7 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
             }
         }
         self.loadCast()
-        self.rxIsFavorite = Variable(self.movie?.isFavorite)
+        self.rxIsFavorite.accept(movie?.isFavorite ?? false)
         self.registerObservableIsFavorite()
         
         if (Display.isIphone() == false) && (self.splitViewController != nil) {
@@ -106,7 +107,7 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
     
     }
     
-    func dismissCompactModal() {
+    @objc func dismissCompactModal() {
         self.dismiss(animated: true, completion: nil)
     }
 
@@ -117,7 +118,7 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
         }else{
             movie?.isFavorite = true
         }
-        self.rxIsFavorite.value = self.movie?.isFavorite
+        self.rxIsFavorite.accept(movie?.isFavorite ?? false)
         CoreDataStack.sharedInstance().persistContext(self.managedObjectContext, wait: true)
     }
     
@@ -179,7 +180,7 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
                 }
             
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     }
 
     // MARK: - UIContentContainer

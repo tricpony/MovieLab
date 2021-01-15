@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource {
+class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -91,7 +91,7 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
         })
     }
 
-    func advanceProgressBar(notice: NSNotification) {
+    @objc func advanceProgressBar(notice: NSNotification) {
         var downloadSizeSoFar: Int16
         var expectedDownloadSize: Int16
         let userInfo: Dictionary = notice.userInfo!
@@ -104,6 +104,7 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
     // MARK: - UISearchBarDelegate
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
         self.performSearch(searchBar)
     }
 

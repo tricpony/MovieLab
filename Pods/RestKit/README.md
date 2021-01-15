@@ -71,7 +71,7 @@ RestKit is broken into several modules that cleanly separate the mapping engine 
   </tr>
   <tr>
     <td><a href="http://restkit.org/api/latest/Classes/RKRelationshipMapping.html">RKRelationshipMapping</a></td>
-    <td>Specifies a desired mapping of a nested to-one or to-many child objects in in terms of a source and destination key path and an <tt>RKObjectMapping</tt> with which to map the attributes of the child object.</td>
+    <td>Specifies a desired mapping of a nested to-one or to-many child objects in terms of a source and destination key path and an <tt>RKObjectMapping</tt> with which to map the attributes of the child object.</td>
   </tr>  
   <tr>
     <td><a href="http://restkit.org/api/latest/Classes/RKDynamicMapping.html">RKDynamicMapping</a></td>
@@ -588,10 +588,11 @@ Change to the directory of your Xcode project, and Create and Edit your Podfile 
 $ cd /path/to/MyProject
 $ touch Podfile
 $ edit Podfile
-platform :ios, '5.0'
-# Or platform :osx, '10.7'
-pod 'RestKit', '~> 0.24.0'
-
+target "YOUR PROJECT" do
+	platform :ios, '7.0'
+	# Or platform :osx, '10.7'
+	pod 'RestKit', '~> 0.24.0'
+end
 # Testing and Search are optional components
 pod 'RestKit/Testing', '~> 0.24.0'
 pod 'RestKit/Search',  '~> 0.24.0'

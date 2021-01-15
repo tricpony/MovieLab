@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'C6141264202336CA564338084E416826'
-               BlueprintName = 'RKValueTransformers'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'RKValueTransformers.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5C75EB124D60D0131403E399C5E7D22C"
+               BuildableName = "RKValueTransformers.framework"
+               BlueprintName = "RKValueTransformers"
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
