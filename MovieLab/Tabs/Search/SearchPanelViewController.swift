@@ -192,7 +192,7 @@ class SearchPanelViewController: BaseViewController, NSFetchedResultsControllerD
         if segue.identifier == "movieDetailSegue" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let movie: Movie = fetchedResultsController.object(at: indexPath)
-                let vc = (segue.destination as! UINavigationController).topViewController as! DetailViewController
+                guard let vc = (segue.destination as? UINavigationController)?.topViewController as? DetailViewController else { return }
                 vc.movie = movie
                 vc.navigationItem.title = movie.title
                 vc.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
