@@ -16,7 +16,7 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate {
     var managedObjectContext = CoreDataStack.sharedInstance().mainContext
     let disposeBag = DisposeBag()
     var fetchRequest = NSFetchRequest<Movie>.init(entityName:"Movie")
-    lazy var data: RxObservable<Movie> = {
+    lazy var tableRxData: RxObservable<Movie> = {
         let data = RxObservable<Movie>(fetchRequest: fetchRequest, context: CoreDataStack.sharedInstance().mainContext)
         data.bind(to: tableView.rx.items(cellIdentifier: "movieCell")) { index, movie, cell in
             cell.textLabel?.text = movie.title
@@ -43,7 +43,7 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate {
 
     func refreshResults() {
         guard let arg = searchBar.text else { return }
-        data.refreshResults(query: arg)
+        tableRxData.refreshResults(query: arg)
     }
     
     // MARK: - UISearchBarDelegate
@@ -58,7 +58,7 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "movieDetailSegue" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                guard let frc = data.fetchedResultsController else { return }
+                guard let frc = tableRxData.fetchedResultsController else { return }
                 let movie: Movie = frc.object(at: indexPath)
                 guard let vc = (segue.destination as? UINavigationController)?.topViewController as? DetailViewController else { return }
                 vc.movie = movie
