@@ -27,8 +27,10 @@ class RxObservable<T>: NSObject, ObservableType, NSFetchedResultsControllerDeleg
         super.init()
     }
 
-    func refreshResults(query: String) {
-        _ = CoreDataUtility.updateRequest(fetchRequest, query: query)
+    func refreshResults(query: String = "", shouldRefresh: Bool = true) {
+        if shouldRefresh {
+            _ = CoreDataUtility.updateRequest(fetchRequest, query: query)
+        }
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                     managedObjectContext: context,
                                                     sectionNameKeyPath: nil,

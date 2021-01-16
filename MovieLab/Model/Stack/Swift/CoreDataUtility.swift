@@ -91,14 +91,15 @@ class CoreDataUtility {
         return request!
     }
     
-    class func fetchedRequestForFavorites(ctx: NSManagedObjectContext) -> NSFetchRequest<NSFetchRequestResult> {
-        var request: NSFetchRequest<NSFetchRequestResult>? = nil
-        let predicateC: NSPredicate = equalPredicate(key: "isFavorite", value: 1)
+    class func fetchedRequestForFavorites<T>(ctx: NSManagedObjectContext) -> NSFetchRequest<T> {
+        let predicate: NSPredicate = equalPredicate(key: "isFavorite", value: 1)
         let sortOrder: NSSortDescriptor = NSSortDescriptor.init(key: "title", ascending: true)
         let sortOrders = [sortOrder]
         
-        request = fetchRequest("Movie", ctx, predicateC, sortOrders)
-        return request!
+        let request = NSFetchRequest<T>.init(entityName:"Movie")
+        request.predicate = predicate
+        request.sortDescriptors = sortOrders
+        return request
     }
     
     class func fetchGenreCount(ctx: NSManagedObjectContext)->Int {
