@@ -115,9 +115,9 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
             .subscribe(onNext: { [unowned self] isFavorite in
 
                 if isFavorite == true {
-                    favoritesNavBarItem.image = UIImage.init(named: "star-filled")
-                }else{
-                    favoritesNavBarItem.image = UIImage.init(named: "star-empty")
+                    favoritesNavBarItem.image = UIImage(named: "star-filled")
+                } else {
+                    favoritesNavBarItem.image = UIImage(named: "star-empty")
                 }
             
             })
