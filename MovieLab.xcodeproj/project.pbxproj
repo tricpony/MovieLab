@@ -17,6 +17,7 @@
 		D12F0E231EC6EC0100A4FA83 /* PosterCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D12F0E1F1EC6EC0100A4FA83 /* PosterCollectionViewCell.xib */; };
 		D12F0E2A1EC810AB00A4FA83 /* UIVew+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12F0E291EC810AB00A4FA83 /* UIVew+Extension.swift */; };
 		D12F0E551ECB2E7500A4FA83 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12F0E541ECB2E7500A4FA83 /* DeviceType.swift */; };
+		D1862A1D25B28BB100B99C5F /* RxObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1862A1C25B28BB100B99C5F /* RxObservable.swift */; };
 		D1DDB5D41ECC8B5B004EC800 /* HorizontalLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1DDB5D31ECC8B5B004EC800 /* HorizontalLineView.m */; };
 		D1DDB5D61ECCA34C004EC800 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1DDB5D51ECCA34C004EC800 /* UIColor+Extension.swift */; };
 		D1DDB5DA1ECDBED8004EC800 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1DDB5D91ECDBED8004EC800 /* Search.storyboard */; };
@@ -50,6 +51,7 @@
 		D12F0E1F1EC6EC0100A4FA83 /* PosterCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PosterCollectionViewCell.xib; sourceTree = "<group>"; };
 		D12F0E291EC810AB00A4FA83 /* UIVew+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIVew+Extension.swift"; sourceTree = "<group>"; };
 		D12F0E541ECB2E7500A4FA83 /* DeviceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceType.swift; sourceTree = "<group>"; };
+		D1862A1C25B28BB100B99C5F /* RxObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxObservable.swift; sourceTree = "<group>"; };
 		D1DDB5D21ECC8B5B004EC800 /* HorizontalLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalLineView.h; sourceTree = "<group>"; };
 		D1DDB5D31ECC8B5B004EC800 /* HorizontalLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalLineView.m; sourceTree = "<group>"; };
 		D1DDB5D51ECCA34C004EC800 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 		D12F0E241EC80FC600A4FA83 /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				D1862A1B25B28B6100B99C5F /* RxSwift */,
 				D12F0E541ECB2E7500A4FA83 /* DeviceType.swift */,
 				D12F0E251EC80FC600A4FA83 /* Extensions */,
 				D12F0E261EC80FC600A4FA83 /* ObjC */,
@@ -171,6 +174,14 @@
 				D1DDB5D31ECC8B5B004EC800 /* HorizontalLineView.m */,
 			);
 			path = ObjC;
+			sourceTree = "<group>";
+		};
+		D1862A1B25B28B6100B99C5F /* RxSwift */ = {
+			isa = PBXGroup;
+			children = (
+				D1862A1C25B28BB100B99C5F /* RxObservable.swift */,
+			);
+			path = RxSwift;
 			sourceTree = "<group>";
 		};
 		D1DDD7041EC29B83000815BC = {
@@ -419,6 +430,7 @@
 				"${BUILT_PRODUCTS_DIR}/MagicalRecord/MagicalRecord.framework",
 				"${BUILT_PRODUCTS_DIR}/RKValueTransformers/RKValueTransformers.framework",
 				"${BUILT_PRODUCTS_DIR}/RestKit/RestKit.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SOCKit/SOCKit.framework",
@@ -430,6 +442,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MagicalRecord.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RKValueTransformers.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RestKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SOCKit.framework",
@@ -457,6 +470,7 @@
 				D1DDD7301EC2A02B000815BC /* MovieLab.xcdatamodeld in Sources */,
 				D1DDD7111EC29B83000815BC /* AppDelegate.swift in Sources */,
 				D1DDD73F1EC2B632000815BC /* Genre+CoreDataClass.swift in Sources */,
+				D1862A1D25B28BB100B99C5F /* RxObservable.swift in Sources */,
 				D12F0E2A1EC810AB00A4FA83 /* UIVew+Extension.swift in Sources */,
 				D1DDD7341EC2AAD1000815BC /* Movie+CoreDataProperties.swift in Sources */,
 				D12F0E221EC6EC0100A4FA83 /* PosterCollectionViewCell.swift in Sources */,
@@ -613,7 +627,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MovieLab/Model/Stack/ObjC/MovieLab-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -629,7 +643,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.gigabit.MovieLab;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MovieLab/Model/Stack/ObjC/MovieLab-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};

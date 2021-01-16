@@ -27,8 +27,8 @@ class CoreDataUtility {
         return request
     }
     
-    class func fetchedRequest(query: String, ctx: NSManagedObjectContext) -> NSFetchRequest<NSFetchRequestResult> {
-        var request: NSFetchRequest<NSFetchRequestResult>? = nil
+    class func fetchedRequest<T>(query: String, ctx: NSManagedObjectContext) -> NSFetchRequest<T> {
+        var request: NSFetchRequest<T>
         let predicateC: NSPredicate = NSPredicate(format: "title contains[c] %@", query)
         var predicateV: NSPredicate
         var predicateVV: NSPredicate
@@ -49,10 +49,38 @@ class CoreDataUtility {
             predicateV = NSCompoundPredicate.init(orPredicateWithSubpredicates: [predicateV, predicateVV])
         }
         
-        request = fetchRequest("Movie", ctx, predicateV, sortOrders)
-        return request!
+        request = NSFetchRequest<T>.init(entityName:"Movie")
+        request.predicate = predicateV
+        request.sortDescriptors = sortOrders
+        return request
     }
     
+    class func updateRequest<T>(_ request: NSFetchRequest<T>, query: String) -> NSFetchRequest<T> {
+        let predicateC: NSPredicate = NSPredicate(format: "title contains[c] %@", query)
+        var predicateV: NSPredicate
+        var predicateVV: NSPredicate
+        let sortOrder: NSSortDescriptor = NSSortDescriptor.init(key: "title", ascending: true)
+        let sortOrders = [sortOrder]
+        var strArray: Array<String>
+        var predArray: Array<NSPredicate> = Array()
+        
+        predicateV = NSPredicate(format: "overview contains[c] %@", query)
+        predicateV = NSCompoundPredicate.init(orPredicateWithSubpredicates: [predicateC, predicateV])
+        strArray = query.split(separator: " ").map(String.init)
+        
+        for str in strArray where strArray.count > 1 {
+            predArray.append(NSPredicate(format: "overview contains[c] %@", str))
+        }
+        if strArray.count > 1 {
+            predicateVV = NSCompoundPredicate.init(orPredicateWithSubpredicates:predArray)
+            predicateV = NSCompoundPredicate.init(orPredicateWithSubpredicates: [predicateV, predicateVV])
+        }
+        
+        request.predicate = predicateV
+        request.sortDescriptors = sortOrders
+        return request
+    }
+
     class func fetchRequest(forMovieIDs: Array<Int>, ctx: NSManagedObjectContext) -> NSFetchRequest<NSFetchRequestResult> {
         var request: NSFetchRequest<NSFetchRequestResult>? = nil;
         let predicate: NSPredicate = NSPredicate(format: "(%K IN %@)", "movieID", forMovieIDs);

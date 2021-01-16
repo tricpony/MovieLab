@@ -10,7 +10,7 @@ import UIKit
 
 let POSTER_COLLECTION_CELL_ID = "POSTER_COLLECTION_CELL_ID"
 
-class PosterCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
+class PosterCollectionViewCell: UICollectionViewCell, MovieCellProtocol {
 
     @IBOutlet weak var missingPosterLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -58,7 +58,7 @@ class PosterCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
         
     }
 
-    // MARK: - MovieDataProtocol
+    // MARK: - MovieCellProtocol
 
     func loadData(_ movie: Movie) {
         self.movie = movie

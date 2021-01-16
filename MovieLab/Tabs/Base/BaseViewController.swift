@@ -134,7 +134,7 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
         return nil
     }
     
-    func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewControllerDisplayMode {
+    func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewController.DisplayMode {
         guard self.forwardDelegate != nil else {
             return .automatic
         }

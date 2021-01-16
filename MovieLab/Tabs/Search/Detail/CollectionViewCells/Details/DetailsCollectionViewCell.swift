@@ -11,10 +11,10 @@ import RxSwift
 
 let DETAILS_COLLECTION_CELL_ID = "DETAILS_COLLECTION_CELL_ID"
 
-protocol MovieDataProtocol {
+protocol MovieCellProtocol where Self: UICollectionViewCell {
     func loadData(_ movie: Movie)
 }
-class DetailsCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
+class DetailsCollectionViewCell: UICollectionViewCell, MovieCellProtocol {
 
     @IBOutlet weak var castHorizontalLineView: HorizontalLineView!
     @IBOutlet weak var genreHorizontalLineView: HorizontalLineView!
@@ -147,7 +147,7 @@ class DetailsCollectionViewCell: UICollectionViewCell, MovieDataProtocol {
         self.configureCanvas()
     }
     
-    // MARK: - MovieDataProtocol
+    // MARK: - MovieCellProtocol
     
     func loadData(_ movie: Movie) {
         self.movie = movie
