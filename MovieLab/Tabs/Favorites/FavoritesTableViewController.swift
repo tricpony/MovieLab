@@ -10,7 +10,6 @@ import UIKit
 import RxSwift
 
 class FavoritesTableViewController: UITableViewController {
-
     var _fetchedResultsController: NSFetchedResultsController<Movie>? = nil
     var managedObjectContext = CoreDataStack.sharedInstance().mainContext
     let disposeBag = DisposeBag()
