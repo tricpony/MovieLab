@@ -11,7 +11,6 @@ import RxSwift
 
 class FavoritesTableViewController: UITableViewController {
     var _fetchedResultsController: NSFetchedResultsController<Movie>? = nil
-    var managedObjectContext = CoreDataStack.sharedInstance().mainContext
     let disposeBag = DisposeBag()
     var fetchRequest: NSFetchRequest<Movie> = CoreDataUtility.fetchedRequestForFavorites(ctx: CoreDataStack.sharedInstance().mainContext!)
     lazy var tableRxData: RxObservable<Movie> = {
