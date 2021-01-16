@@ -35,7 +35,7 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.delegate = self
+        self.delegate = self
         self.preferredDisplayMode = .allVisible
         if let nc = self.viewControllers.last as? UINavigationController {
             nc.topViewController?.navigationItem.leftBarButtonItem = self.displayModeButtonItem

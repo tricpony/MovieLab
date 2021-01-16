@@ -31,11 +31,16 @@ class FavoritesTableViewController: UITableViewController {
         _ = tableRxData
         self.clearsSelectionOnViewWillAppear = false
 
-        let sizeClass = BaseViewController.sizeClass()
-        
-        if (sizeClass.vertical == .regular) && (sizeClass.horizontal == .compact) {
+//        let sizeClass = BaseViewController.sizeClass()
+//
+//        if (sizeClass.vertical == .regular) && (sizeClass.horizontal == .compact) {
             (self.splitViewController as! SplitViewController).isOnFavorites = true
-        }
+//        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        (self.splitViewController as! SplitViewController).isOnFavorites = true
     }
 
     // MARK: - Storyboard

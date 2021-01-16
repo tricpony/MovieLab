@@ -26,6 +26,11 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate {
         return data
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        (splitViewController as? SplitViewController)?.isOnFavorites = false
+    }
+
     @IBAction func performSearch(_ sender: Any) {
         guard let query: String = self.searchBar.text, !query.isEmpty else { return }
         let searchArgs = ["query" : query]
