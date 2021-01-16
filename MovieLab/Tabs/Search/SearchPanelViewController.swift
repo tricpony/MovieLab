@@ -59,7 +59,7 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate {
         if segue.identifier == "movieDetailSegue" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 guard let frc = tableRxData.fetchedResultsController else { return }
-                let movie: Movie = frc.object(at: indexPath)
+                let movie = frc.object(at: indexPath)
                 guard let vc = (segue.destination as? UINavigationController)?.topViewController as? DetailViewController else { return }
                 vc.movie = movie
                 vc.navigationItem.title = movie.title
