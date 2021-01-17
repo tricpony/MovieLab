@@ -47,6 +47,8 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
     // MARK: - UISplitViewControllerDelegate
     
     func splitViewController(_ splitViewController: UISplitViewController, showDetail vc: UIViewController, sender: Any?) -> Bool {
+        // this is clumsey, should be a cleaner way to do this, like the split view controller just does the right thing
+        // here we are manually handling navigation for compact (iPhone) size class
         if splitViewController.isCollapsed {
             if self.isOnFavorites == false {
                 if let tabBarController = splitViewController.viewControllers.first as? UITabBarController {

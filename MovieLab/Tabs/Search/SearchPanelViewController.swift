@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 
 class SearchPanelViewController: BaseViewController, UISearchBarDelegate {
-
+    var detailVC: UINavigationController? = nil
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     var managedObjectContext = CoreDataStack.sharedInstance().mainContext
@@ -31,6 +31,14 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         (splitViewController as? SplitViewController)?.isOnFavorites = false
+        if splitViewController?.isCollapsed == false {
+            guard let detail = detailVC else {
+                let sb = UIStoryboard(name: "Detail", bundle: nil)
+                let placeholder = sb.instantiateViewController(withIdentifier: "PlaceholderScene")
+                (self.splitViewController as? SplitViewController)?.showDetailViewController(placeholder, sender: nil)
+                return }
+            (self.splitViewController as? SplitViewController)?.showDetailViewController(detail, sender: nil)
+        }
     }
 
     @IBAction func performSearch(_ sender: Any) {
@@ -68,6 +76,9 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate {
                 guard let frc = tableRxData.fetchedResultsController else { return }
                 let movie = frc.object(at: indexPath)
                 guard let vc = (segue.destination as? UINavigationController)?.topViewController as? DetailViewController else { return }
+                if splitViewController?.isCollapsed == false {
+                    detailVC = vc.navigationController
+                }
                 vc.movie = movie
                 vc.navigationItem.title = movie.title
                 vc.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem

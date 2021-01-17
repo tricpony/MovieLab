@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 
 class FavoritesTableViewController: UITableViewController {
+    var detailVC: UINavigationController? = nil
     var _fetchedResultsController: NSFetchedResultsController<Movie>? = nil
     let disposeBag = DisposeBag()
     var fetchRequest: NSFetchRequest<Movie> = CoreDataUtility.fetchedRequestForFavorites(ctx: CoreDataStack.sharedInstance().mainContext!)
@@ -37,7 +38,15 @@ class FavoritesTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        (self.splitViewController as! SplitViewController).isOnFavorites = true
+        (self.splitViewController as? SplitViewController)?.isOnFavorites = true
+        if splitViewController?.isCollapsed == false {
+            guard let detail = detailVC else {
+                let sb = UIStoryboard(name: "Detail", bundle: nil)
+                let placeholder = sb.instantiateViewController(withIdentifier: "PlaceholderScene")
+                (self.splitViewController as? SplitViewController)?.showDetailViewController(placeholder, sender: nil)
+                return }
+            (self.splitViewController as? SplitViewController)?.showDetailViewController(detail, sender: nil)
+        }
     }
 
     // MARK: - Storyboard
@@ -49,6 +58,9 @@ class FavoritesTableViewController: UITableViewController {
                 guard let frc = tableRxData.fetchedResultsController else { return }
                 let movie = frc.object(at: indexPath)
                 let vc = (segue.destination as! UINavigationController).topViewController as! DetailViewController
+                if splitViewController?.isCollapsed == false {
+                    detailVC = vc.navigationController
+                }
                 vc.movie = movie
                 vc.navigationItem.title = movie.title
                 vc.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
