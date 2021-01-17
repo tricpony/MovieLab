@@ -13,8 +13,10 @@ class FavoritesTableViewController: UITableViewController {
     var _fetchedResultsController: NSFetchedResultsController<Movie>? = nil
     let disposeBag = DisposeBag()
     var fetchRequest: NSFetchRequest<Movie> = CoreDataUtility.fetchedRequestForFavorites(ctx: CoreDataStack.sharedInstance().mainContext!)
-    lazy var tableRxData: RxObservable<Movie> = {
-        let data = RxObservable<Movie>(fetchRequest: fetchRequest, context: CoreDataStack.sharedInstance().mainContext)
+    lazy var tableRxData: RxFetchedResultsCommand<Movie> = {
+        let data = RxFetchedResultsCommand<Movie>(fetchRequest: fetchRequest,
+                                                  context: CoreDataStack.sharedInstance().mainContext,
+                                                  shouldObserveChanges: true)
         data.refreshResults(shouldRefresh: false)
         data.bind(to: tableView.rx.items(cellIdentifier: "movieCell")) { index, movie, cell in
             cell.textLabel?.text = movie.title
@@ -30,12 +32,7 @@ class FavoritesTableViewController: UITableViewController {
         tableView.dataSource = nil
         _ = tableRxData
         self.clearsSelectionOnViewWillAppear = false
-
-//        let sizeClass = BaseViewController.sizeClass()
-//
-//        if (sizeClass.vertical == .regular) && (sizeClass.horizontal == .compact) {
-            (self.splitViewController as! SplitViewController).isOnFavorites = true
-//        }
+        (self.splitViewController as! SplitViewController).isOnFavorites = true
     }
     
     override func viewWillAppear(_ animated: Bool) {

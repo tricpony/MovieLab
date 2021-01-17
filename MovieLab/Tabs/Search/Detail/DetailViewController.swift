@@ -32,7 +32,6 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         loadCast()
         rxIsFavorite.accept(movie?.isFavorite ?? false)
         registerObservableIsFavorite()
@@ -81,7 +80,9 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
                 actor.movieID = movie.movieID
             }
             CoreDataStack.sharedInstance().persistContext(managedObjectContext, wait: false)
-            collectionView.reloadItems(at: [IndexPath.init(row: 1, section: 0)])
+            DispatchQueue.main.async {
+                collectionView.reloadData()
+            }
             print("Service Passed")
         }, failureBlock:{ error in
             print("Service Call Failed: \(String(describing: error?.localizedDescription))")

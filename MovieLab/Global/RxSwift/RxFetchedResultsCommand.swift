@@ -1,5 +1,5 @@
 //
-//  RxObservable.swift
+//  RxFetchedResultsCommand.swift
 //  MovieLab
 //
 //  Created by aarthur on 1/15/21.
@@ -12,18 +12,21 @@ import os.log
 import RxCocoa
 import RxSwift
 
-class RxObservable<T>: NSObject, ObservableType, NSFetchedResultsControllerDelegate where T: NSManagedObject {
+// https://medium.com/better-programming/rxswift-observable-and-core-data-55ab87fc02ea
+class RxFetchedResultsCommand<T>: NSObject, ObservableType, NSFetchedResultsControllerDelegate where T: NSManagedObject {
     var fetchedResultsController: NSFetchedResultsController<T>?
     private let context: NSManagedObjectContext
     private var fetchRequest: NSFetchRequest<T>
     private let results = BehaviorSubject<[T]>(value: [])
     private var subscriptions = 0
+    private var shouldObserveChanges: Bool!
 
     typealias Element = [T]
 
-    init(fetchRequest: NSFetchRequest<T>, context: NSManagedObjectContext) {
+    init(fetchRequest: NSFetchRequest<T>, context: NSManagedObjectContext, shouldObserveChanges: Bool) {
         self.fetchRequest = fetchRequest
         self.context = context
+        self.shouldObserveChanges = shouldObserveChanges
         super.init()
     }
 
@@ -35,9 +38,10 @@ class RxObservable<T>: NSObject, ObservableType, NSFetchedResultsControllerDeleg
                                                     managedObjectContext: context,
                                                     sectionNameKeyPath: nil,
                                                     cacheName: nil)
-        controller.delegate = self
+        if shouldObserveChanges {
+            controller.delegate = self
+        }
         fetchedResultsController = controller as NSFetchedResultsController<T>
-
         do {
             try fetchedResultsController?.performFetch()
             let result = fetchedResultsController?.fetchedObjects ?? []
@@ -48,7 +52,7 @@ class RxObservable<T>: NSObject, ObservableType, NSFetchedResultsControllerDeleg
     }
     
     // MARK: ObservableType implementation
-    func subscribe<Observer>(_ observer: Observer) -> Disposable where Observer: ObserverType, RxObservable.Element == Observer.Element {
+    func subscribe<Observer>(_ observer: Observer) -> Disposable where Observer: ObserverType, RxFetchedResultsCommand.Element == Observer.Element {
         return FetcherDisposable(fetcher: self, observer: observer)
     }
 
@@ -75,11 +79,11 @@ class RxObservable<T>: NSObject, ObservableType, NSFetchedResultsControllerDeleg
 
     // MARK: Disposable
     private class FetcherDisposable: Disposable {
-        var fetcher: RxObservable?
+        var fetcher: RxFetchedResultsCommand?
         var disposable: Disposable?
 
-        init<Observer>(fetcher: RxObservable,
-                       observer: Observer) where Observer: ObserverType, RxObservable.Element == Observer.Element {
+        init<Observer>(fetcher: RxFetchedResultsCommand,
+                       observer: Observer) where Observer: ObserverType, RxFetchedResultsCommand.Element == Observer.Element {
             self.fetcher = fetcher
 
             self.disposable = fetcher.results.subscribe(onNext: {

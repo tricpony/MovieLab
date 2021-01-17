@@ -47,13 +47,7 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
     // MARK: - UISplitViewControllerDelegate
     
     func splitViewController(_ splitViewController: UISplitViewController, showDetail vc: UIViewController, sender: Any?) -> Bool {
-        
-        guard Display.isIphone() == false else {
-            return false
-        }
-        
-        if (splitViewController.traitCollection.horizontalSizeClass == .compact) {
-
+        if splitViewController.isCollapsed {
             if self.isOnFavorites == false {
                 if let tabBarController = splitViewController.viewControllers.first as? UITabBarController {
                     if let navController = tabBarController.viewControllers?.first as? UINavigationController {

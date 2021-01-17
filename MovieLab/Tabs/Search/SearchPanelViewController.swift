@@ -16,8 +16,10 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate {
     var managedObjectContext = CoreDataStack.sharedInstance().mainContext
     let disposeBag = DisposeBag()
     var fetchRequest = NSFetchRequest<Movie>.init(entityName:"Movie")
-    lazy var tableRxData: RxObservable<Movie> = {
-        let data = RxObservable<Movie>(fetchRequest: fetchRequest, context: CoreDataStack.sharedInstance().mainContext)
+    lazy var tableRxData: RxFetchedResultsCommand<Movie> = {
+        let data = RxFetchedResultsCommand<Movie>(fetchRequest: fetchRequest,
+                                                  context: CoreDataStack.sharedInstance().mainContext,
+                                                  shouldObserveChanges: false)
         data.bind(to: tableView.rx.items(cellIdentifier: "movieCell")) { index, movie, cell in
             cell.textLabel?.text = movie.title
             cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
