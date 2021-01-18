@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-class FavoritesTableViewController: UITableViewController {
+class FavoritesTableViewController: UITableViewController, SplitViewControllerDetail {
     var detailVC: UINavigationController? = nil
     var _fetchedResultsController: NSFetchedResultsController<Movie>? = nil
     let disposeBag = DisposeBag()
@@ -39,14 +39,7 @@ class FavoritesTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         (self.splitViewController as? SplitViewController)?.isOnFavorites = true
-        if splitViewController?.isCollapsed == false {
-            guard let detail = detailVC else {
-                let sb = UIStoryboard(name: "Detail", bundle: nil)
-                let placeholder = sb.instantiateViewController(withIdentifier: "PlaceholderScene")
-                (self.splitViewController as? SplitViewController)?.showDetailViewController(placeholder, sender: nil)
-                return }
-            (self.splitViewController as? SplitViewController)?.showDetailViewController(detail, sender: nil)
-        }
+        syncSplitViewControllerSecondary()
     }
 
     // MARK: - Storyboard

@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-class SearchPanelViewController: BaseViewController, UISearchBarDelegate {
+class SearchPanelViewController: BaseViewController, UISearchBarDelegate, SplitViewControllerDetail {
     var detailVC: UINavigationController? = nil
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
@@ -31,14 +31,7 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         (splitViewController as? SplitViewController)?.isOnFavorites = false
-        if splitViewController?.isCollapsed == false {
-            guard let detail = detailVC else {
-                let sb = UIStoryboard(name: "Detail", bundle: nil)
-                let placeholder = sb.instantiateViewController(withIdentifier: "PlaceholderScene")
-                (self.splitViewController as? SplitViewController)?.showDetailViewController(placeholder, sender: nil)
-                return }
-            (self.splitViewController as? SplitViewController)?.showDetailViewController(detail, sender: nil)
-        }
+        syncSplitViewControllerSecondary()
     }
 
     @IBAction func performSearch(_ sender: Any) {
