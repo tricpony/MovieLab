@@ -55,7 +55,7 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate, SplitV
     }
     
     func preFillGenreTable() {
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .background).async { [unowned self] in
             var genreCount = 0
             genreCount = CoreDataUtility.fetchGenreCount(ctx: self.managedObjectContext!)
             if genreCount == 0 {
