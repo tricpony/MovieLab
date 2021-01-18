@@ -163,39 +163,26 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let fullSize: CGSize = view.bounds.size
-        
-        guard fullSize.height > 0 else {
-            return CGRect.zero.size
-        }
-        
+        guard fullSize.height > 0 else { return CGRect.zero.size }
         var splitSize: CGSize!
         var h: CGFloat!
         var w: CGFloat!
         let device: UIDevice = UIDevice.current
         let orientation: UIDeviceOrientation = device.orientation
-        let sizeTrait = sizeClass()
-        var tabBar = tabBarController?.tabBar
-        let navBar = navigationController?.navigationBar
-        var heightOffset: CGFloat = (navBar?.frame.size.height)! + UIApplication.shared.statusBarFrame.size.height
-        
-        if ((sizeTrait.vertical == .regular) && (sizeTrait.horizontal == .regular)) {
-            tabBar = nil
+        guard let navBar = navigationController?.navigationBar else { return CGRect.zero.size }
+        var heightOffset: CGFloat = navBar.frame.size.height + UIApplication.shared.statusBarFrame.size.height
+        if splitViewController?.isCollapsed == true {
+            guard let tabBar = tabBarController?.tabBar else { return CGRect.zero.size }
+            heightOffset += tabBar.frame.size.height
         }
-        
-        if (tabBar != nil) {
-            heightOffset += (tabBar?.frame.size.height)!
-        }
-        
         if (orientation == .landscapeRight) || (orientation == .landscapeLeft) {
             h = (fullSize.height - (COLLECTION_VIEW_BORDER_SIZE * 2.0)) - heightOffset
             w = (fullSize.width - (COLLECTION_VIEW_BORDER_SIZE * 2.0))/2.0
         }else{
-            
             h = ((fullSize.height - heightOffset)/2.0) - (COLLECTION_VIEW_BORDER_SIZE * 2.0)
             w = fullSize.width - (COLLECTION_VIEW_BORDER_SIZE * 2.0)
         }
         splitSize = CGSize.init(width: w, height: h)
-        
         return splitSize
     }
 

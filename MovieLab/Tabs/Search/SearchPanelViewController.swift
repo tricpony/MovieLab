@@ -31,6 +31,7 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate, SplitV
     override func viewDidLoad() {
         super.viewDidLoad()
         preFillGenreTable()
+        searchBar.becomeFirstResponder()
     }
     
     override func viewWillAppear(_ animated: Bool) {
