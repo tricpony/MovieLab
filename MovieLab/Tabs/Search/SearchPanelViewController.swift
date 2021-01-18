@@ -43,11 +43,11 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate, SplitV
     // MARK: - Service
 
     @IBAction func performSearch(_ sender: Any) {
-        guard let query: String = self.searchBar.text, !query.isEmpty else { return }
+        guard let query = searchBar.text, !query.isEmpty else { return }
         let searchArgs = ["query" : query]
         let serviceRequest = RKNetworkClient();
         
-        self.searchBar.resignFirstResponder()
+        searchBar.resignFirstResponder()
         serviceRequest.performNetworkMovieFetch(matchingParameters: searchArgs as [AnyHashable : Any], successBlock: { [unowned self] results in
             refreshResults()
         }, failureBlock:{ error in
@@ -58,7 +58,7 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate, SplitV
     func preFillGenreTable() {
         DispatchQueue.global(qos: .background).async { [unowned self] in
             var genreCount = 0
-            genreCount = CoreDataUtility.fetchGenreCount(ctx: self.managedObjectContext!)
+            genreCount = CoreDataUtility.fetchGenreCount(ctx: managedObjectContext!)
             if genreCount == 0 {
                 let serviceRequest = RKNetworkClient();
                 serviceRequest.performNetworkMovieGenreFetchWithsuccessBlock(nil, failureBlock: nil)
@@ -77,7 +77,7 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate, SplitV
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        self.performSearch(searchBar)
+        performSearch(searchBar)
     }
 
     // MARK: - Storyboard

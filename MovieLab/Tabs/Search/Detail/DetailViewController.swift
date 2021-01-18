@@ -153,7 +153,7 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let movie = self.movie else { return UICollectionViewCell() }
+        guard let movie = movie else { return UICollectionViewCell() }
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier(indexPath), for: indexPath) as? MovieCellProtocol else { return UICollectionViewCell() }
         cell.loadData(movie)
         return cell
