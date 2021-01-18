@@ -71,6 +71,8 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate, SplitV
     func refreshResults() {
         guard let arg = searchBar.text else { return }
         tableRxData.refreshResults(query: arg)
+        detailVC = nil
+        syncSplitViewControllerSecondary()
     }
     
     // MARK: - UISearchBarDelegate
