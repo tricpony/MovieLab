@@ -32,7 +32,7 @@ class FavoritesTableViewController: UITableViewController, SplitViewControllerDe
         tableView.dataSource = nil
         _ = tableRxData
         self.clearsSelectionOnViewWillAppear = false
-        (self.splitViewController as! SplitViewController).isOnFavorites = true
+        (self.splitViewController as? SplitViewController)?.isOnFavorites = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
