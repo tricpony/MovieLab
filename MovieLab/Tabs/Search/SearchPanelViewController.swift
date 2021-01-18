@@ -28,11 +28,18 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate, SplitV
         return data
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        preFillGenreTable()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         (splitViewController as? SplitViewController)?.isOnFavorites = false
         syncSplitViewControllerSecondary()
     }
+
+    // MARK: - Service
 
     @IBAction func performSearch(_ sender: Any) {
         guard let query: String = self.searchBar.text, !query.isEmpty else { return }
@@ -45,6 +52,17 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate, SplitV
         }, failureBlock:{ error in
             print("Service Call Failed: \(String(describing: error?.localizedDescription))")
         })
+    }
+    
+    func preFillGenreTable() {
+        DispatchQueue.global(qos: .background).async {
+            var genreCount = 0
+            genreCount = CoreDataUtility.fetchGenreCount(ctx: self.managedObjectContext!)
+            if genreCount == 0 {
+                let serviceRequest = RKNetworkClient();
+                serviceRequest.performNetworkMovieGenreFetchWithsuccessBlock(nil, failureBlock: nil)
+            }
+        }
     }
     
     // MARK: - RxSwift
