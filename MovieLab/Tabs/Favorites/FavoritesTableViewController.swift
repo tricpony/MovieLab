@@ -11,7 +11,6 @@ import RxSwift
 
 class FavoritesTableViewController: UITableViewController, SplitViewControllerDetail {
     var detailVC: UINavigationController? = nil
-    var _fetchedResultsController: NSFetchedResultsController<Movie>? = nil
     let disposeBag = DisposeBag()
     var fetchRequest: NSFetchRequest<Movie> = CoreDataUtility.fetchedRequestForFavorites(ctx: CoreDataStack.sharedInstance().mainContext!)
     lazy var tableRxData: RxFetchedResultsCommand<Movie> = {
