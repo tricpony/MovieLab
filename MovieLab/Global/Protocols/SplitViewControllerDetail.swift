@@ -14,6 +14,8 @@ protocol SplitViewControllerDetail where Self: UIViewController {
 }
 
 extension SplitViewControllerDetail {
+    
+    /// Keep primary and secondary view controllers in sync when switching tabs.
     func syncSplitViewControllerSecondary() {
         if splitViewController?.isCollapsed == false {
             guard let detail = detailVC else {

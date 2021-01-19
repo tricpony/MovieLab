@@ -21,6 +21,7 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
     var rxIsFavorite = BehaviorRelay<Bool>(value: false)
     let disposeBag = DisposeBag()
 
+    /// Register the proper cells to be used by the collection view.
     func registerUIAssets() {
         var nib: UINib!
         
@@ -63,6 +64,7 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
 
     }
 
+    /// Fetch the movie's cast and persist locally.  Revisiting the same movie skips the service call in favor of the local cast values.
     func loadCast() {
         guard let movie = movie else { return }
         guard movie.cast?.count == 0 else { return }
@@ -111,6 +113,7 @@ class DetailViewController: BaseViewController, UICollectionViewDelegate, UIColl
     
     // MARK: - RxSwift
 
+    /// Subscribe favorites button to changes on movie.isFavorite displaying either the filled star or empty star.
     private func registerObservableIsFavorite() {
         rxIsFavorite.asObservable()
             .subscribe(onNext: { [unowned self] isFavorite in

@@ -26,57 +26,12 @@ class CoreDataUtility {
         
         return request
     }
-    
-    class func fetchedRequest<T>(query: String, ctx: NSManagedObjectContext) -> NSFetchRequest<T> {
-        var request: NSFetchRequest<T>
-        let predicateC: NSPredicate = NSPredicate(format: "title contains[c] %@", query)
-        var predicateV: NSPredicate
-        var predicateVV: NSPredicate
-        let sortOrder: NSSortDescriptor = NSSortDescriptor.init(key: "title", ascending: true)
-        let sortOrders = [sortOrder]
-        var strArray: Array<String>
-        var predArray: Array<NSPredicate> = Array()
-        
-        predicateV = NSPredicate(format: "overview contains[c] %@", query)
-        predicateV = NSCompoundPredicate.init(orPredicateWithSubpredicates: [predicateC, predicateV])
-        strArray = query.split(separator: " ").map(String.init)
-        
-        for str in strArray where strArray.count > 1 {
-            predArray.append(NSPredicate(format: "overview contains[c] %@", str))
-        }
-        if strArray.count > 1 {
-            predicateVV = NSCompoundPredicate.init(orPredicateWithSubpredicates:predArray)
-            predicateV = NSCompoundPredicate.init(orPredicateWithSubpredicates: [predicateV, predicateVV])
-        }
-        
-        request = NSFetchRequest<T>.init(entityName:"Movie")
-        request.predicate = predicateV
-        request.sortDescriptors = sortOrders
-        return request
-    }
-    
+
     class func updateRequest<T>(_ request: NSFetchRequest<T>, query: String) -> NSFetchRequest<T> {
-        let predicateC: NSPredicate = NSPredicate(format: "title contains[c] %@", query)
-        var predicateV: NSPredicate
-        var predicateVV: NSPredicate
-        let sortOrder: NSSortDescriptor = NSSortDescriptor.init(key: "title", ascending: true)
-        let sortOrders = [sortOrder]
-        var strArray: Array<String>
-        var predArray: Array<NSPredicate> = Array()
+        let predicateC: NSPredicate = NSPredicate(format: "title CONTAINS[c] %@", query)
+        let sortOrders = [NSSortDescriptor(key: "title", ascending: true)]
         
-        predicateV = NSPredicate(format: "overview contains[c] %@", query)
-        predicateV = NSCompoundPredicate.init(orPredicateWithSubpredicates: [predicateC, predicateV])
-        strArray = query.split(separator: " ").map(String.init)
-        
-        for str in strArray where strArray.count > 1 {
-            predArray.append(NSPredicate(format: "overview contains[c] %@", str))
-        }
-        if strArray.count > 1 {
-            predicateVV = NSCompoundPredicate.init(orPredicateWithSubpredicates:predArray)
-            predicateV = NSCompoundPredicate.init(orPredicateWithSubpredicates: [predicateV, predicateVV])
-        }
-        
-        request.predicate = predicateV
+        request.predicate = predicateC
         request.sortDescriptors = sortOrders
         return request
     }

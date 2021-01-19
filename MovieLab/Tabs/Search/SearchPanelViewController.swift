@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 
+/// Master search view controller
 class SearchPanelViewController: BaseViewController, UISearchBarDelegate, SplitViewControllerDetail {
     var detailVC: UINavigationController? = nil
     @IBOutlet weak var searchBar: UISearchBar!
@@ -16,6 +17,8 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate, SplitV
     var managedObjectContext = CoreDataStack.sharedInstance().mainContext
     let disposeBag = DisposeBag()
     var fetchRequest = NSFetchRequest<Movie>.init(entityName:"Movie")
+    
+    /// Bind table view to changes in the data source.
     lazy var tableRxData: RxFetchedResultsCommand<Movie> = {
         let data = RxFetchedResultsCommand<Movie>(fetchRequest: fetchRequest,
                                                   context: CoreDataStack.sharedInstance().mainContext,
@@ -42,6 +45,7 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate, SplitV
 
     // MARK: - Service
 
+    /// Fetch the matching movies.
     @IBAction func performSearch(_ sender: Any) {
         guard let query = searchBar.text, !query.isEmpty else { return }
         let searchArgs = ["query" : query]
@@ -55,6 +59,7 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate, SplitV
         })
     }
     
+    /// Fetch genres in the backgrond when there are none found locally.
     func preFillGenreTable() {
         DispatchQueue.global(qos: .background).async { [unowned self] in
             var genreCount = 0
@@ -68,6 +73,7 @@ class SearchPanelViewController: BaseViewController, UISearchBarDelegate, SplitV
     
     // MARK: - RxSwift
 
+    /// Create new fetched results controller to refresh and match the results from the service call.
     func refreshResults() {
         guard let arg = searchBar.text else { return }
         tableRxData.refreshResults(query: arg)

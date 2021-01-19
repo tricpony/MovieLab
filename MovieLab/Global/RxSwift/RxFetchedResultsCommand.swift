@@ -23,6 +23,11 @@ class RxFetchedResultsCommand<T>: NSObject, ObservableType, NSFetchedResultsCont
 
     typealias Element = [T]
 
+    /// Initialization.
+    /// - Parameters:
+    ///   - fetchRequest: Instance of NSFetchRequest.
+    ///   - context: Instance of NSManagedObjectContext.
+    ///   - shouldObserveChanges: Indicates that the fetchedResultsController's delegate is set when true, nil otherwise.  When true data changes are monitored.
     init(fetchRequest: NSFetchRequest<T>, context: NSManagedObjectContext, shouldObserveChanges: Bool) {
         self.fetchRequest = fetchRequest
         self.context = context
@@ -30,6 +35,10 @@ class RxFetchedResultsCommand<T>: NSObject, ObservableType, NSFetchedResultsCont
         super.init()
     }
 
+    /// Change the search arguments and execute fetch.
+    /// - Parameters:
+    ///   - query: Search string.
+    ///   - shouldRefresh: Update the fetch request when true, otherwise the fetch request should already be properly configured and immutable.
     func refreshResults(query: String = "", shouldRefresh: Bool = true) {
         if shouldRefresh {
             _ = CoreDataUtility.updateRequest(fetchRequest, query: query)

@@ -9,10 +9,13 @@
 import UIKit
 import RxSwift
 
+/// Master favorites view controller
 class FavoritesTableViewController: UITableViewController, SplitViewControllerDetail {
     var detailVC: UINavigationController? = nil
     let disposeBag = DisposeBag()
     var fetchRequest: NSFetchRequest<Movie> = CoreDataUtility.fetchedRequestForFavorites(ctx: CoreDataStack.sharedInstance().mainContext!)
+    
+    /// Bind table view to changes in the data source.
     lazy var tableRxData: RxFetchedResultsCommand<Movie> = {
         let data = RxFetchedResultsCommand<Movie>(fetchRequest: fetchRequest,
                                                   context: CoreDataStack.sharedInstance().mainContext,
